@@ -9,10 +9,9 @@
     "phone2": "+971600000000",
     "email": "firstname.lastname@example.com",
     "site": "https://www.example.com",
-    "mapUrl": "https://maps.google.com/?q=Office",
-    "addressAr": "العنوان بالعربية",
-    "addressEn": "Address in English",
     "logoUrl": "l1.png",
+    "addressAr": "89GH+JHW - المجاز 3 - المجاز - الشارقة",
+    "addressEn": "89GH+JHW - Al Majaz 3 - Al Majaz - Sharjah",
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=89GH+JHW,+Al+Majaz+3,+Al+Majaz,+Sharjah"
   },
   {
@@ -25,11 +24,9 @@
     "phone2": "+971600000000",
     "email": "firstname.lastname@example.com",
     "site": "https://www.example.com",
-    "mapUrl": "https://maps.google.com/?q=Office",
-    "addressAr": "العنوان بالعربية",
-    "addressEn": "Address in English",
     "logoUrl": "l1.png",
-    "photoUrl": "",
+    "addressAr": "89GH+JHW - المجاز 3 - المجاز - الشارقة",
+    "addressEn": "89GH+JHW - Al Majaz 3 - Al Majaz - Sharjah",
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=89GH+JHW,+Al+Majaz+3,+Al+Majaz,+Sharjah"
   }
 ]
