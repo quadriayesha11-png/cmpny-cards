@@ -3,78 +3,166 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Digital Card</title>
+  <title>Digital Business Card</title>
   <style>
-    body{font-family:system-ui,Segoe UI,Roboto,Arial,"Dubai","Cairo",sans-serif;padding:16px;background:#f7f7f8}
-    .card{max-width:1000px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.06)}
-    .topbar{background:#e9eaee;border-radius:10px;padding:10px 14px;margin-bottom:18px;font-weight:600;text-align:center}
-    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
-    @media (max-width:900px){.grid{grid-template-columns:1fr}}
-    .brand{display:flex;gap:16px;align-items:flex-start}
-    .brand img{width:200px;max-width:40vw;height:auto;object-fit:contain}
-    .legend{border-left:3px solid #e5e7eb;padding-left:14px}
-    .legend .ar{font-size:22px;font-weight:700;margin-bottom:6px;direction:rtl}
-    .legend .en{font-size:16px}
-    h1{margin:.2rem 0 .6rem}
-    .subtitle{color:#6b7280;margin-top:-4px}
-    .address{margin:12px 0;color:#111;direction:rtl}
-    .site a{color:#0f62fe;text-decoration:none;font-weight:600}
-    .act{display:grid;gap:10px;margin-top:18px}
-    .btn{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;background:#f3f4f6;color:#111;text-decoration:none}
+    :root{
+      --bg:#f7f7f8;--panel:#ffffff;--ink:#111827;--muted:#6b7280;--brand:#0f62fe;--border:#e5e7eb;--cta:#f3f4f6;--cta-hover:#eef2ff
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Dubai","Cairo",sans-serif;line-height:1.45}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .topbar{background:linear-gradient(#d9d9dd,#c9c9ce);color:#222;text-align:center;padding:10px 14px;border-radius:10px;font-weight:600;letter-spacing:.2px;margin-bottom:18px}
+    .card{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px;align-items:start;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+    @media (max-width:900px){.card{grid-template-columns:1fr}}
+    .brand{display:flex;align-items:flex-start;gap:24px}
+    .brand img{width:220px;max-width:40vw;height:auto;object-fit:contain}
+    .brand-legend{border-left:3px solid var(--border);padding-left:18px}
+    .brand-legend .ar{font-size:26px;font-weight:700;margin-bottom:8px}
+    .brand-legend .en{font-size:18px;letter-spacing:.2px}
+    .content h1{margin:.2rem 0 .6rem;font-size:28px}
+    .subtitle{color:var(--muted);margin-top:-4px}
+    .address{margin:12px 0 10px;color:var(--ink)}
+    .site a{color:var(--brand);text-decoration:none;font-weight:600}
+    .site a:hover{text-decoration:underline}
+    .actions{margin-top:16px;display:grid;gap:10px}
+    .action{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--ink);background:var(--cta)}
+    .action:hover{background:var(--cta-hover)}
+    .action .left{display:flex;align-items:center;gap:12px}
+    .chev{width:16px;height:16px;opacity:.5}
+    .rtl{direction:rtl;text-align:right}
+    .map-embed{margin-top:16px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+    .map-embed iframe{width:100%;height:260px;border:0}
   </style>
 </head>
 <body>
-  <div class="topbar" id="nameAr">اسم الموظف</div>
-  <div class="card">
-    <div class="grid">
+  <div class="wrap">
+    <div class="topbar rtl" id="nameAr">اسم الموظف</div>
+
+    <div class="card">
+      <!-- LEFT: Logo + bilingual legend -->
       <div class="brand">
         <img id="logo" src="logo.png" alt="Logo" />
-        <div class="legend">
-          <div class="ar" id="orgAr">اسم الجهة<br/>اسم القسم</div>
+        <div class="brand-legend">
+          <div class="ar rtl" id="orgAr">اسم الجهة<br/>اسم القسم</div>
           <div class="en" id="orgEn"><strong>Your Organization</strong><br/>Your Department</div>
         </div>
       </div>
-      <section>
+
+      <!-- RIGHT: content -->
+      <section class="content">
         <h1 id="orgTitle">Your Organization</h1>
         <div class="subtitle" id="jobTitle">المسمى الوظيفي</div>
-        <div class="address" id="addressAr">العنوان بالعربية</div>
-        <p class="site"><a id="siteLink" href="https://www.example.com" target="_blank">www.example.com</a></p>
-        <div class="act">
-          <a class="btn" id="tel1" href="#"><span id="tel1Text">+971 50 000 0000</span><span>›</span></a>
-          <a class="btn" id="tel2" href="#"><span id="tel2Text">+971 6 000 0000</span><span>›</span></a>
-          <a class="btn" id="emailBtn" href="#"><span id="emailText">firstname.lastname@example.com</span><span>›</span></a>
-          <a class="btn" id="mapBtn" href="#" target="_blank"><span>Open Map</span><span>›</span></a>
+        <div class="address rtl" id="addressAr">العنوان بالعربية</div>
+        <p class="site"><a id="siteLink" href="https://www.example.com" target="_blank" rel="noopener">www.example.com</a></p>
+
+        <div class="actions">
+          <a class="action" id="tel1" href="#"><div class="left">📞 <span><strong id="tel1Text">+971 50 000 0000</strong></span></div><span class="chev">›</span></a>
+          <a class="action" id="tel2" href="#"><div class="left">☎️ <span><strong id="tel2Text">+971 6 000 0000</strong></span></div><span class="chev">›</span></a>
+          <a class="action" id="emailBtn" href="#"><div class="left">✉️ <span><strong id="emailText">firstname.lastname@example.com</strong></span></div><span class="chev">›</span></a>
+          <a class="action" id="mapBtn" href="#" target="_blank" rel="noopener"><div class="left">📍 <span><strong>Open Map</strong> <span style="color:var(--muted)">(Google Maps)</span></span></div><span class="chev">›</span></a>
         </div>
+
+        <!-- Embedded map with pinned marker -->
+        <div class="map-embed" id="mapEmbed" aria-label="Location map (pinned)"></div>
       </section>
     </div>
   </div>
 
   <script>
-    const id = new URLSearchParams(location.search).get('id');
+    // --- Helpers ---
+    function parseCoordsFromUrl(u){
+      try{
+        const url = new URL(u);
+        const q = url.searchParams.get('query');
+        if(q && /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(q.trim())){
+          const [lat, lng] = q.split(',').map(Number); return {lat, lng};
+        }
+        // Also support maps.google.com/?q=lat,lng
+        const q2 = url.searchParams.get('q');
+        if(q2 && /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(q2.trim())){
+          const [lat, lng] = q2.split(',').map(Number); return {lat, lng};
+        }
+      }catch(e){ /* ignore */ }
+      return null;
+    }
+
+    function buildMapsLink(coords, address){
+      if(coords){
+        return `https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lng}`;
+      }
+      const q = encodeURIComponent(address||'');
+      return `https://www.google.com/maps/search/?api=1&query=${q}`;
+    }
+
+    function buildEmbedSrc(coords, address){
+      if(coords){
+        // Pinned coordinates embed
+        const z = 16; // zoom
+        return `https://www.google.com/maps?q=${coords.lat},${coords.lng}&z=${z}&output=embed`;
+      }
+      const q = encodeURIComponent(address||'');
+      return `https://www.google.com/maps?q=${q}&output=embed`;
+    }
+
+    // --- Main ---
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
     if(!id){ document.body.insertAdjacentHTML('beforeend','<div style="padding:12px">No employee id provided (?id=101).</div>'); }
 
-    // cache-bust so latest JSON load ho
-    const url = 'employees.json?v=' + Date.now();
+    const dataUrl = 'employees.json?v=' + Date.now(); // cache-bust
 
-    fetch(url).then(r=>r.json()).then(list=>{
-      const emp = list.find(x=> String(x.id)===String(id));
+    fetch(dataUrl).then(r=>r.json()).then(list=>{
+      const emp = list.find(x => String(x.id) === String(id));
       if(!emp){ document.body.insertAdjacentHTML('beforeend','<div style="padding:12px">Card not found.</div>'); return; }
 
-      nameAr.textContent = emp.nameAr || emp.nameEn || '—';
-      jobTitle.textContent = emp.title || '';
-      addressAr.innerHTML = (emp.addressAr||'').replace(/\n/g,'<br/>');
+      // Basic bindings
+      document.getElementById('nameAr').textContent = emp.nameAr || emp.nameEn || '—';
+      document.getElementById('jobTitle').textContent = emp.title || '';
+      document.getElementById('addressAr').innerHTML = (emp.addressAr||'').replace(/\n/g,'<br/>');
 
-      if(emp.site){ siteLink.href = emp.site; try{ siteLink.textContent = new URL(emp.site).host }catch{ siteLink.textContent = emp.site } }
-      if(emp.logoUrl){ logo.src = emp.logoUrl; }
+      const siteA = document.getElementById('siteLink');
+      if(emp.site){
+        siteA.href = emp.site;
+        try{ siteA.textContent = new URL(emp.site).host }catch{ siteA.textContent = emp.site }
+      }
 
+      const logoEl = document.getElementById('logo');
+      if(emp.logoUrl){ logoEl.src = emp.logoUrl; }
+      logoEl.onerror = () => { logoEl.style.display = 'none'; };
+
+      const tel1 = document.getElementById('tel1');
+      const tel1Text = document.getElementById('tel1Text');
       tel1.href = emp.phone1 ? `tel:${emp.phone1}` : '#';
       tel1Text.textContent = emp.phone1 || '—';
+
+      const tel2 = document.getElementById('tel2');
+      const tel2Text = document.getElementById('tel2Text');
       tel2.href = emp.phone2 ? `tel:${emp.phone2}` : '#';
       tel2Text.textContent = emp.phone2 || '—';
+
+      const emailBtn = document.getElementById('emailBtn');
+      const emailText = document.getElementById('emailText');
       emailBtn.href = emp.email ? `mailto:${emp.email}` : '#';
       emailText.textContent = emp.email || '—';
-      mapBtn.href = emp.mapUrl || '#';
-    }).catch(()=>{ document.body.insertAdjacentHTML('beforeend','<div style="padding:12px">Error loading data.</div>'); });
+
+      // --- Map: prefer explicit coords if provided ---
+      let coords = null;
+      if(typeof emp.lat === 'number' && typeof emp.lng === 'number'){
+        coords = {lat: emp.lat, lng: emp.lng};
+      } else if(emp.mapUrl){
+        coords = parseCoordsFromUrl(emp.mapUrl);
+      }
+
+      const addressFallback = emp.addressEn || emp.addressAr || '';
+      const mapLink = buildMapsLink(coords, addressFallback);
+      document.getElementById('mapBtn').href = mapLink;
+
+      const embedSrc = buildEmbedSrc(coords, addressFallback);
+      document.getElementById('mapEmbed').innerHTML = `<iframe src="${embedSrc}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Pinned Map"></iframe>`;
+    }).catch(()=>{
+      document.body.insertAdjacentHTML('beforeend','<div style="padding:12px">Error loading data.</div>');
+    });
   </script>
 </body>
 </html>
