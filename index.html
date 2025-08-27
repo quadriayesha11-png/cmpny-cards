@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital Card</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial,"Dubai","Cairo",sans-serif;padding:16px;background:#f7f7f8}
+    .card{max-width:1000px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+    .topbar{background:#e9eaee;border-radius:10px;padding:10px 14px;margin-bottom:18px;font-weight:600;text-align:center}
+    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+    .brand{display:flex;gap:16px;align-items:flex-start}
+    .brand img{width:200px;max-width:40vw;height:auto;object-fit:contain}
+    .legend{border-left:3px solid #e5e7eb;padding-left:14px}
+    .legend .ar{font-size:22px;font-weight:700;margin-bottom:6px;direction:rtl}
+    .legend .en{font-size:16px}
+    h1{margin:.2rem 0 .6rem}
+    .subtitle{color:#6b7280;margin-top:-4px}
+    .address{margin:12px 0;color:#111;direction:rtl}
+    .site a{color:#0f62fe;text-decoration:none;font-weight:600}
+    .act{display:grid;gap:10px;margin-top:18px}
+    .btn{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;background:#f3f4f6;color:#111;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="topbar" id="nameAr">اسم الموظف</div>
+  <div class="card">
+    <div class="grid">
+      <div class="brand">
+        <img id="logo" src="logo.png" alt="Logo" />
+        <div class="legend">
+          <div class="ar" id="orgAr">اسم الجهة<br/>اسم القسم</div>
+          <div class="en" id="orgEn"><strong>Your Organization</strong><br/>Your Department</div>
+        </div>
+      </div>
+      <section>
+        <h1 id="orgTitle">Your Organization</h1>
+        <div class="subtitle" id="jobTitle">المسمى الوظيفي</div>
+        <div class="address" id="addressAr">العنوان بالعربية</div>
+        <p class="site"><a id="siteLink" href="https://www.example.com" target="_blank">www.example.com</a></p>
+        <div class="act">
+          <a class="btn" id="tel1" href="#"><span id="tel1Text">+971 50 000 0000</span><span>›</span></a>
+          <a class="btn" id="tel2" href="#"><span id="tel2Text">+971 6 000 0000</span><span>›</span></a>
+          <a class="btn" id="emailBtn" href="#"><span id="emailText">firstname.lastname@example.com</span><span>›</span></a>
+          <a class="btn" id="mapBtn" href="#" target="_blank"><span>Open Map</span><span>›</span></a>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const id = new URLSearchParams(location.search).get('id');
+    if(!id){ document.body.insertAdjacentHTML('beforeend','<div style="padding:12px">No employee id provided (?id=101).</div>'); }
+
+    // cache-bust so latest JSON load ho
+    const url = 'employees.json?v=' + Date.now();
+
+    fetch(url).then(r=>r.json()).then(list=>{
+      const emp = list.find(x=> String(x.id)===String(id));
+      if(!emp){ document.body.insertAdjacentHTML('beforeend','<div style="padding:12px">Card not found.</div>'); return; }
+
+      nameAr.textContent = emp.nameAr || emp.nameEn || '—';
+      jobTitle.textContent = emp.title || '';
+      addressAr.innerHTML = (emp.addressAr||'').replace(/\n/g,'<br/>');
+
+      if(emp.site){ siteLink.href = emp.site; try{ siteLink.textContent = new URL(emp.site).host }catch{ siteLink.textContent = emp.site } }
+      if(emp.logoUrl){ logo.src = emp.logoUrl; }
+
+      tel1.href = emp.phone1 ? `tel:${emp.phone1}` : '#';
+      tel1Text.textContent = emp.phone1 || '—';
+      tel2.href = emp.phone2 ? `tel:${emp.phone2}` : '#';
+      tel2Text.textContent = emp.phone2 || '—';
+      emailBtn.href = emp.email ? `mailto:${emp.email}` : '#';
+      emailText.textContent = emp.email || '—';
+      mapBtn.href = emp.mapUrl || '#';
+    }).catch(()=>{ document.body.insertAdjacentHTML('beforeend','<div style="padding:12px">Error loading data.</div>'); });
+  </script>
+</body>
+</html>
