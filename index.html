@@ -1,168 +1,193 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Digital Business Card</title>
+  <title>Digital Business Card · Premium</title>
+  <!-- Keep public but discourage indexing -->
+  <meta name="robots" content="noindex,nofollow,noarchive" />
   <style>
     :root{
-      --bg:#f7f7f8;--panel:#ffffff;--ink:#111827;--muted:#6b7280;--brand:#0f62fe;--border:#e5e7eb;--cta:#f3f4f6;--cta-hover:#eef2ff
+      --accent:#5b8eff;           /* primary brand accent */
+      --accent-2:#7dffd1;         /* secondary for gradients */
+      --ink:#0b1220;              /* main text */
+      --muted:#5c6470;            /* secondary text */
+      --panel:#ffffff;            /* card surface */
+      --line:#e7e9ee;             /* borders */
+      --soft:#f7f8fb;             /* soft bg */
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Dubai","Cairo",sans-serif;line-height:1.45}
-    .wrap{max-width:1100px;margin:0 auto;padding:24px}
-    .topbar{background:linear-gradient(#d9d9dd,#c9c9ce);color:#222;text-align:center;padding:10px 14px;border-radius:10px;font-weight:600;letter-spacing:.2px;margin-bottom:18px}
-    .card{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px;align-items:start;box-shadow:0 8px 24px rgba(0,0,0,.06)}
-    @media (max-width:900px){.card{grid-template-columns:1fr}}
-    .brand{display:flex;align-items:flex-start;gap:24px}
-    .brand img{width:220px;max-width:40vw;height:auto;object-fit:contain}
-    .brand-legend{border-left:3px solid var(--border);padding-left:18px}
-    .brand-legend .ar{font-size:26px;font-weight:700;margin-bottom:8px}
-    .brand-legend .en{font-size:18px;letter-spacing:.2px}
-    .content h1{margin:.2rem 0 .6rem;font-size:28px}
-    .subtitle{color:var(--muted);margin-top:-4px}
-    .address{margin:12px 0 10px;color:var(--ink)}
-    .site a{color:var(--brand);text-decoration:none;font-weight:600}
+    body{
+      margin:0; color:var(--ink);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Dubai","Cairo",sans-serif;
+      background: radial-gradient(1200px 1200px at 20% -10%, rgba(91,142,255,.25), transparent 60%),
+                  radial-gradient(900px 900px at 110% 10%, rgba(125,255,209,.25), transparent 50%),
+                  linear-gradient(180deg, #f9fbff, #f4f6fb);
+    }
+
+    /* Decorative grid */
+    .grid-bg{position:fixed;inset:0;pointer-events:none;opacity:.25;background-image:linear-gradient(transparent 23px, rgba(11,18,32,.04) 24px),linear-gradient(90deg, transparent 23px, rgba(11,18,32,.04) 24px);background-size:24px 24px}
+
+    .wrap{max-width:1100px;margin:0 auto;padding:28px}
+
+    /* Top header chip */
+    .chip{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.6);backdrop-filter:blur(8px);border:1px solid var(--line);box-shadow:0 8px 24px rgba(11,18,32,.06);font-weight:700}
+    .chip .dot{width:10px;height:10px;border-radius:50%;background:conic-gradient(from 180deg,var(--accent),var(--accent-2))}
+
+    /* Main card */
+    .card{margin-top:18px;display:grid;grid-template-columns:1.15fr .85fr;gap:28px;padding:28px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.7);backdrop-filter:blur(10px);box-shadow:0 16px 40px rgba(11,18,32,.08)}
+    @media (max-width:980px){.card{grid-template-columns:1fr}}
+
+    .brand{display:flex;gap:18px;align-items:flex-start}
+    .logo{width:220px;max-width:40vw;height:auto;object-fit:contain}
+    .legend{border-right:3px solid var(--line);padding-right:16px}
+    .legend .ar{font-size:26px;font-weight:800;letter-spacing:.2px}
+    .legend .en{font-size:14px;color:var(--muted);margin-top:6px}
+
+    .title{margin:.2rem 0 .6rem;font-size:30px;font-weight:900}
+    .subtitle{color:var(--muted);margin-top:-6px}
+    .address{margin:14px 0;color:var(--ink)}
+    .site a{color:var(--accent);text-decoration:none;font-weight:700}
     .site a:hover{text-decoration:underline}
-    .actions{margin-top:16px;display:grid;gap:10px}
-    .action{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--ink);background:var(--cta)}
-    .action:hover{background:var(--cta-hover)}
-    .action .left{display:flex;align-items:center;gap:12px}
-    .chev{width:16px;height:16px;opacity:.5}
-    .rtl{direction:rtl;text-align:right}
-    .map-embed{margin-top:16px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
-    .map-embed iframe{width:100%;height:260px;border:0}
+
+    /* Actions */
+    .actions{margin-top:18px;display:grid;gap:10px}
+    .btn{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#fbfcff,#f3f6ff);text-decoration:none;color:var(--ink);transition:transform .15s ease, box-shadow .15s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(11,18,32,.08)}
+    .btn svg{flex:0 0 18px}
+
+    .map{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:18px}
+    .map iframe{width:100%;height:280px;border:0}
+
+    /* Footer bar */
+    .footer{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .tag{font-size:12px;padding:6px 10px;border-radius:999px;background:#eef2ff;border:1px solid var(--line)}
+
+    /* EN block (LTR) */
+    .ltr{direction:ltr;text-align:left}
+
+    /* Floating accent ring */
+    .ring{position:absolute;inset:auto auto -60px -60px;width:220px;height:220px;border-radius:50%;filter:blur(18px);background:radial-gradient(circle at 30% 30%, rgba(91,142,255,.5), transparent 60%), radial-gradient(circle at 70% 70%, rgba(125,255,209,.35), transparent 60%);opacity:.7}
+    @media (max-width:980px){.ring{display:none}}
   </style>
 </head>
 <body>
+  <div class="grid-bg"></div>
   <div class="wrap">
-    <div class="topbar rtl" id="nameAr">اسم الموظف</div>
+    <div class="chip"><span class="dot"></span><span id="nameAr">اسم الموظف</span></div>
 
     <div class="card">
-      <!-- LEFT: Logo + bilingual legend -->
-      <div class="brand">
-        <img id="logo" src="logo.png" alt="Logo" />
-        <div class="brand-legend">
-          <div class="ar rtl" id="orgAr">اسم الجهة<br/>اسم القسم</div>
-          <div class="en" id="orgEn"><strong>Your Organization</strong><br/>Your Department</div>
+      <!-- LEFT: Brand & Arabic copy -->
+      <div>
+        <div class="brand">
+          <img id="logo" class="logo" src="logo.png" alt="Logo" />
+          <div class="legend">
+            <div class="ar" id="orgAr">اسم الجهة<br/>اسم القسم</div>
+            <div class="en" id="orgEn">Your Organization · Department</div>
+          </div>
         </div>
-      </div>
 
-      <!-- RIGHT: content -->
-      <section class="content">
-        <h1 id="orgTitle">Your Organization</h1>
+        <h1 class="title" id="orgTitle">Your Organization</h1>
         <div class="subtitle" id="jobTitle">المسمى الوظيفي</div>
-        <div class="address rtl" id="addressAr">العنوان بالعربية</div>
+        <div class="address" id="addressAr">العنوان بالعربية</div>
         <p class="site"><a id="siteLink" href="https://www.example.com" target="_blank" rel="noopener">www.example.com</a></p>
 
         <div class="actions">
-          <a class="action" id="tel1" href="#"><div class="left">📞 <span><strong id="tel1Text">+971 50 000 0000</strong></span></div><span class="chev">›</span></a>
-          <a class="action" id="tel2" href="#"><div class="left">☎️ <span><strong id="tel2Text">+971 6 000 0000</strong></span></div><span class="chev">›</span></a>
-          <a class="action" id="emailBtn" href="#"><div class="left">✉️ <span><strong id="emailText">firstname.lastname@example.com</strong></span></div><span class="chev">›</span></a>
-          <a class="action" id="mapBtn" href="#" target="_blank" rel="noopener"><div class="left">📍 <span><strong>Open Map</strong> <span style="color:var(--muted)">(Google Maps)</span></span></div><span class="chev">›</span></a>
+          <a class="btn" id="tel1" href="#" aria-label="Call primary number">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.16 9.81 19.86 19.86 0 0 1 .09 1.18 2 2 0 0 1 2.06-.99h3a2 2 0 0 1 2 1.72c.13 1.01.36 1.99.68 2.93a2 2 0 0 1-.45 2.11L6.09 7.91a16 16 0 0 0 6 6l1.14-1.14a2 2 0 0 1 2.11-.45c.94.32 1.92.55 2.93.68A2 2 0 0 1 22 16.92z" fill="currentColor"/></svg>
+            <strong id="tel1Text">+971 50 000 0000</strong>
+          </a>
+          <a class="btn" id="emailBtn" href="#" aria-label="Send email">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 0l8 7 8-7" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+            <strong id="emailText">firstname.lastname@example.com</strong>
+          </a>
+          <a class="btn" id="mapBtn" href="#" target="_blank" rel="noopener" aria-label="Open map">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg>
+            <strong>Open Map</strong>
+          </a>
         </div>
 
-        <!-- Embedded map with pinned marker -->
-        <div class="map-embed" id="mapEmbed" aria-label="Location map (pinned)"></div>
-      </section>
+        <div class="footer">
+          <span class="tag">Tap to call/email/map</span>
+          <span class="tag">Responsive · Arabic-first</span>
+          <span class="tag">Glass + gradient</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: English mirror + map -->
+      <div class="ltr">
+        <div class="ring" aria-hidden="true"></div>
+        <h3 style="margin:0 0 8px;font-weight:800">English</h3>
+        <div id="nameEn" style="font-weight:700;margin-bottom:6px;color:var(--ink)">Employee Name</div>
+        <div id="deptEn" style="color:var(--muted);margin-bottom:10px">Department</div>
+        <div id="addressEn" style="color:var(--ink);margin-bottom:10px">Address in English</div>
+        <div class="map" id="mapEmbed" aria-label="Pinned map"></div>
+      </div>
     </div>
   </div>
 
   <script>
-    // --- Helpers ---
-    function parseCoordsFromUrl(u){
-      try{
-        const url = new URL(u);
-        const q = url.searchParams.get('query');
-        if(q && /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(q.trim())){
-          const [lat, lng] = q.split(',').map(Number); return {lat, lng};
-        }
-        // Also support maps.google.com/?q=lat,lng
-        const q2 = url.searchParams.get('q');
-        if(q2 && /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(q2.trim())){
-          const [lat, lng] = q2.split(',').map(Number); return {lat, lng};
-        }
-      }catch(e){ /* ignore */ }
-      return null;
-    }
+    // Read ID from URL (GUID) and fetch the matching JSON file.
+    const id = new URLSearchParams(location.search).get('id');
+    const path = id ? `employees/${id}.json?v=${Date.now()}` : null;
 
-    function buildMapsLink(coords, address){
-      if(coords){
-        return `https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lng}`;
+    function setText(id, text){ const el=document.getElementById(id); if(el) el.innerHTML = (text||'').toString().replace(/\n/g,'<br/>'); }
+
+    function pinMapFrom(coordsOrText){
+      const embed = document.getElementById('mapEmbed');
+      const mapBtn = document.getElementById('mapBtn');
+      if(!embed || !mapBtn) return;
+      if(typeof coordsOrText === 'object' && coordsOrText && 'lat' in coordsOrText){
+        const {lat,lng} = coordsOrText;
+        embed.innerHTML = `<iframe src="https://maps.google.com/maps?output=embed&q=loc:${lat},${lng}&z=16" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
+        mapBtn.href = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+      } else {
+        const q = encodeURIComponent(coordsOrText||'');
+        embed.innerHTML = `<iframe src="https://maps.google.com/maps?output=embed&q=${q}&z=16" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
+        mapBtn.href = `https://www.google.com/maps/search/?api=1&query=${q}`;
       }
-      const q = encodeURIComponent(address||'');
-      return `https://www.google.com/maps/search/?api=1&query=${q}`;
     }
 
-    function buildEmbedSrc(coords, address){
-      if(coords){
-        // Pinned coordinates embed
-        const z = 16; // zoom
-        return `https://www.google.com/maps?q=${coords.lat},${coords.lng}&z=${z}&output=embed`;
-      }
-      const q = encodeURIComponent(address||'');
-      return `https://www.google.com/maps?q=${q}&output=embed`;
-    }
-
-    // --- Main ---
-    const params = new URLSearchParams(location.search);
-    const id = params.get('id');
-    if(!id){ document.body.insertAdjacentHTML('beforeend','<div style="padding:12px">No employee id provided (?id=101).</div>'); }
-
-    const dataUrl = 'employees.json?v=' + Date.now(); // cache-bust
-
-    fetch(dataUrl).then(r=>r.json()).then(list=>{
-      const emp = list.find(x => String(x.id) === String(id));
-      if(!emp){ document.body.insertAdjacentHTML('beforeend','<div style="padding:12px">Card not found.</div>'); return; }
-
-      // Basic bindings
-      document.getElementById('nameAr').textContent = emp.nameAr || emp.nameEn || '—';
-      document.getElementById('jobTitle').textContent = emp.title || '';
-      document.getElementById('addressAr').innerHTML = (emp.addressAr||'').replace(/\n/g,'<br/>');
-
+    function bind(emp){
+      // Arabic side
+      setText('nameAr', emp.nameAr || emp.nameEn || '—');
+      setText('jobTitle', emp.title || '');
+      setText('addressAr', emp.addressAr || '');
       const siteA = document.getElementById('siteLink');
-      if(emp.site){
-        siteA.href = emp.site;
-        try{ siteA.textContent = new URL(emp.site).host }catch{ siteA.textContent = emp.site }
-      }
+      if(emp.site){ siteA.href = emp.site; try{ siteA.textContent = new URL(emp.site).host }catch{ siteA.textContent = emp.site } }
+      const logo = document.getElementById('logo'); if(emp.logoUrl) logo.src = emp.logoUrl; logo.onerror = ()=>{ logo.style.display='none'; };
+      const tel1 = document.getElementById('tel1'); const tel1Text=document.getElementById('tel1Text');
+      tel1.href = emp.phone1?`tel:${emp.phone1}`:'#'; tel1Text.textContent = emp.phone1||'—';
+      const emailBtn=document.getElementById('emailBtn'); const emailText=document.getElementById('emailText');
+      emailBtn.href = emp.email?`mailto:${emp.email}`:'#'; emailText.textContent = emp.email||'—';
 
-      const logoEl = document.getElementById('logo');
-      if(emp.logoUrl){ logoEl.src = emp.logoUrl; }
-      logoEl.onerror = () => { logoEl.style.display = 'none'; };
+      // English mirror
+      setText('nameEn', emp.nameEn || emp.nameAr || '—');
+      setText('deptEn', emp.dept || '');
+      setText('addressEn', emp.addressEn || '');
 
-      const tel1 = document.getElementById('tel1');
-      const tel1Text = document.getElementById('tel1Text');
-      tel1.href = emp.phone1 ? `tel:${emp.phone1}` : '#';
-      tel1Text.textContent = emp.phone1 || '—';
-
-      const tel2 = document.getElementById('tel2');
-      const tel2Text = document.getElementById('tel2Text');
-      tel2.href = emp.phone2 ? `tel:${emp.phone2}` : '#';
-      tel2Text.textContent = emp.phone2 || '—';
-
-      const emailBtn = document.getElementById('emailBtn');
-      const emailText = document.getElementById('emailText');
-      emailBtn.href = emp.email ? `mailto:${emp.email}` : '#';
-      emailText.textContent = emp.email || '—';
-
-      // --- Map: prefer explicit coords if provided ---
-      let coords = null;
-      if(typeof emp.lat === 'number' && typeof emp.lng === 'number'){
-        coords = {lat: emp.lat, lng: emp.lng};
+      // Map priority: lat/lng → mapUrl → address
+      if(typeof emp.lat==='number' && typeof emp.lng==='number'){
+        pinMapFrom({lat:emp.lat,lng:emp.lng});
       } else if(emp.mapUrl){
-        coords = parseCoordsFromUrl(emp.mapUrl);
+        try{ const u=new URL(emp.mapUrl); const q=u.searchParams.get('query')||u.searchParams.get('q')||emp.mapUrl; pinMapFrom(q); }
+        catch{ pinMapFrom(emp.mapUrl); }
+      } else {
+        pinMapFrom(emp.addressEn || emp.addressAr || '');
       }
+    }
 
-      const addressFallback = emp.addressEn || emp.addressAr || '';
-      const mapLink = buildMapsLink(coords, addressFallback);
-      document.getElementById('mapBtn').href = mapLink;
-
-      const embedSrc = buildEmbedSrc(coords, addressFallback);
-      document.getElementById('mapEmbed').innerHTML = `<iframe src="${embedSrc}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen title="Pinned Map"></iframe>`;
-    }).catch(()=>{
-      document.body.insertAdjacentHTML('beforeend','<div style="padding:12px">Error loading data.</div>');
-    });
+    if(!path){
+      document.body.insertAdjacentHTML('beforeend','<div style="padding:14px">No id provided (?id=...)</div>');
+    } else {
+      fetch(path)
+        .then(r=>{ if(!r.ok) throw new Error('Not found'); return r.json(); })
+        .then(bind)
+        .catch(()=>{
+          document.body.insertAdjacentHTML('beforeend','<div style="padding:14px;color:#9b1c1c;background:#fff3f3;border:1px solid #f5c2c2;border-radius:10px;margin:14px">Card not found for this link.</div>');
+        });
+    }
   </script>
 </body>
 </html>
