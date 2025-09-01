@@ -181,11 +181,10 @@
   const qs = new URLSearchParams(location.search);
   const id = qs.get('id');
   const accent = qs.get('accent');
-  const dirParam = qs.get('dir'); // ltr or rtl
+  const dirParam = qs.get('dir');
   if (accent) document.documentElement.style.setProperty('--accent', accent);
   if (dirParam === 'ltr' || dirParam === 'rtl') document.documentElement.setAttribute('dir', dirParam);
 
-  // background: from ?bg=... or employee JSON "bgUrl"
   function applyBg(url){
     const st = document.createElement('style');
     st.textContent = `.bg::before{background-image:url("${url}")}`;
@@ -198,35 +197,29 @@
 
   function setSiteLink(el, href){
     if(!href){ el.removeAttribute('href'); el.href='#'; return; }
-    try{
-      const u = new URL(href); el.href = href; $('siteText').textContent = u.host;
-    }catch{ el.href = href; $('siteText').textContent = href; }
+    try{ const u = new URL(href); el.href = href; $('siteText').textContent = u.host; }
+    catch{ el.href = href; $('siteText').textContent = href; }
   }
 
   function mapHrefFrom(emp){
-    // priority: lat/lng -> mapUrl -> address
-    if (typeof emp.lat === 'number' && typeof emp.lng === 'number') {
+    if (typeof emp.lat === 'number' && typeof emp.lng === 'number')
       return `https://www.google.com/maps/search/?api=1&query=${emp.lat},${emp.lng}`;
-    }
     if (emp.mapUrl) return emp.mapUrl;
     const q = encodeURIComponent(emp.addressEn || emp.addressAr || '');
     return `https://www.google.com/maps/search/?api=1&query=${q}`;
   }
 
   function bind(emp){
-    // logo + bg
     if(emp.logoUrl) $('logoImg').src = emp.logoUrl; else $('logoImg').src = 'assets/logo.png';
     $('logoImg').onerror = () => { $('logoImg').src='assets/logo.png'; };
     if(bgFromQuery){ applyBg(bgFromQuery); } else if(emp.bgUrl){ applyBg(emp.bgUrl); }
 
-    // text
     setText('name', emp.nameEn || emp.nameAr || 'YOUR NAME');
     setText('designation', emp.title || 'YOUR DESIGNATION');
     setText('phoneText', emp.phone1 || emp.phone || '+971 XX XXX XXXX');
     setText('emailText', emp.email || 'info@example.com');
     setText('addrText', emp.addressEn || emp.addressAr || 'Your Address Here');
 
-    // links
     const phone = emp.phone1 || emp.phone;
     $('btnPhone').href = phone ? `tel:${phone}` : '#';
     $('btnEmail').href = emp.email ? `mailto:${emp.email}` : '#';
@@ -234,7 +227,6 @@
     $('btnMap').href = mapHrefFrom(emp);
   }
 
-  // Demo fallback (now blue bg by default)
   const demo = {
     nameEn:"YOUR NAME", title:"YOUR DESIGNATION",
     phone:"+91 98765 43210", email:"info@website.com",
@@ -244,14 +236,30 @@
     bgUrl:"assets/bg-blue.jpg"
   };
 
-  const dataPath = id ? `employees/${id}.json?v=${Date.now()}` : null;
-  if(!dataPath){
-    bind(demo);
-  }else{
-    fetch(dataPath).then(r=>{ if(!r.ok) throw 0; return r.json(); })
-      .then(bind)
-      .catch(()=> bind(demo));
+  // 👇 Use ROOT-RELATIVE path so it works even if the HTML is in a subfolder
+  const dataPath = id ? `/employees/${encodeURIComponent(id)}.json?c=${Date.now()}` : null;
+
+  function showError(msg){
+    const div = document.createElement('div');
+    div.style.cssText = "margin:12px 0;padding:10px;border-radius:10px;background:#ffffff1a;border:1px solid #ffffff40;color:#fff;font:600 13px system-ui";
+    div.textContent = msg;
+    document.querySelector('.card').appendChild(div);
   }
+
+  (async () => {
+    if (!id) { showError('No id provided (?id=...) — showing demo.'); bind(demo); return; }
+    try {
+      const res = await fetch(dataPath, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const emp = await res.json();  // will throw if JSON invalid
+      bind(emp);
+    } catch (err) {
+      console.error('Employee JSON load failed:', dataPath, err);
+      showError(`Could not load ${dataPath}. Showing demo.`);
+      bind(demo);
+    }
+  })();
 </script>
+
 </body>
 </html>
