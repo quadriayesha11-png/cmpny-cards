@@ -8,49 +8,38 @@
 
 <style>
   :root{
-    --ink:#ffffff;
-    --muted:#dbe9ff;
-    --accent:#1977d2;          /* default blue; override via ?accent= */
-    --line:rgba(255,255,255,.25);
-    --panel:rgba(255,255,255,.08);
-    --panel-2:rgba(0,35,90,.28);
+    --ink:#0b1220;
+    --muted:#5b6a7a;
+    --accent:#1977d2;                 /* blue */
+    --accent-2:#125aa5;
+    --line:#e6eaf0;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
     margin:0;
-    font-family: system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Dubai","Cairo",sans-serif;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Dubai","Cairo",sans-serif;
     color:var(--ink);
-    /* BLUE fallback gradient if no bg image */
-    background:
-      radial-gradient(1200px 800px at 10% -10%, #0f62c9 0, transparent 60%),
-      radial-gradient(900px 700px at 110% 0%, #45b2ff 0, transparent 50%),
-      linear-gradient(180deg,#0d3d73,#1977d2 30%, #0c5aa8 75%);
+    background:#fff;                  /* pure white page */
   }
-  /* custom background layer (set from JS) */
+
+  /* background image layer (set from JS) */
   .bg::before{
     content:""; position:fixed; inset:0; z-index:-2;
-    background-size:cover; background-position:center; background-repeat:no-repeat;
-    filter:contrast(1.05) saturate(1.08);
-  }
-  /* dark overlay for readability */
-  .bg::after{
-    content:""; position:fixed; inset:0; z-index:-1;
-    background:
-      radial-gradient(1200px 700px at 50% 0%, rgba(0,22,45,.25), transparent 60%),
-      linear-gradient(180deg, rgba(0,18,40,.45), rgba(0,18,40,.55));
+    background-position:center top;
+    background-repeat:no-repeat;
+    background-size:contain;          /* show full poster image */
+    image-rendering:auto;
   }
 
   .wrap{max-width:440px;margin:0 auto;padding:18px}
   .card{
     border-radius:18px;
     padding:22px 18px 28px;
-    backdrop-filter: blur(6px);
-    background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.06));
-    border:1px solid var(--panel-2);
-    box-shadow: 0 20px 50px rgba(0,0,0,.35);
-    position:relative;
-    overflow:hidden;
+    background:#fff;                  /* white card */
+    border:1px solid var(--line);
+    box-shadow:0 18px 40px rgba(11,18,32,.08);
+    position:relative; overflow:hidden;
   }
 
   /* Logo circle */
@@ -58,25 +47,16 @@
     width:122px;height:122px;margin:6px auto 10px;border-radius:50%;
     position:relative; display:grid; place-items:center;
     background:
-      radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 60%),
-      conic-gradient(from 0deg, var(--accent), #45b2ff, var(--accent));
+      radial-gradient(circle at 30% 30%, rgba(25,119,210,.25), transparent 60%),
+      conic-gradient(from 0deg, var(--accent), #49a2ff, var(--accent));
     padding:3px;
-    box-shadow:0 10px 24px rgba(0,0,0,.35);
+    box-shadow:0 10px 24px rgba(11,18,32,.15);
   }
-  .logo{
-    width:100%;height:100%;border-radius:50%; background:#fff; display:grid; place-items:center;
-    overflow:hidden;
-  }
+  .logo{width:100%;height:100%;border-radius:50%; background:#fff; display:grid; place-items:center; overflow:hidden}
   .logo img{width:100%;height:100%;object-fit:contain}
 
-  .name{
-    text-align:center; font-size:28px; line-height:1.1; font-weight:900; letter-spacing:.5px;
-    text-transform:uppercase; margin:10px 8px 6px;
-    text-shadow:0 2px 10px rgba(0,0,0,.35);
-  }
-  .designation{
-    text-align:center; font-weight:700; color:var(--muted); letter-spacing:.6px; margin-bottom:14px;
-  }
+  .name{ text-align:center; font-size:28px; line-height:1.1; font-weight:900; letter-spacing:.5px; text-transform:uppercase; margin:10px 8px 6px; }
+  .designation{ text-align:center; font-weight:700; color:var(--muted); letter-spacing:.4px; margin-bottom:14px; }
 
   /* dashed separator */
   .dash{
@@ -89,30 +69,21 @@
   .list{display:grid; gap:10px}
   .btn{
     display:flex; align-items:center; gap:12px;
-    padding:14px 14px; border-radius:16px; border:1px solid var(--line);
-    background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.05));
-    text-decoration:none; color:var(--ink);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 8px 22px rgba(0,0,0,.25);
-    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    padding:14px 14px; border-radius:14px; border:1px solid var(--accent);
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    color:#fff; text-decoration:none; box-shadow:0 8px 22px rgba(25,119,210,.25);
+    transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
   }
-  .btn:hover{ transform: translateY(-1px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 12px 28px rgba(0,0,0,.32); }
-  .btn:active{ transform: translateY(0); }
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 12px 28px rgba(25,119,210,.35); }
+  .btn:active{ transform:translateY(0); filter:brightness(.96); }
 
-  .ico{
-    width:40px; height:40px; border-radius:12px; display:grid; place-items:center; flex:0 0 40px;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.2), rgba(255,255,255,.06));
-    border:1px solid var(--line);
-  }
+  .ico{ width:40px;height:40px;border-radius:10px; display:grid; place-items:center; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.25); flex:0 0 40px; }
   .ico svg{width:20px;height:20px; color:#fff}
-
-  .vline{width:1px; height:26px; background:var(--line)}
-  .meta .lbl{font-size:12px; color:var(--muted); font-weight:700; letter-spacing:.4px}
+  .vline{width:1px;height:26px;background:rgba(255,255,255,.35)}
+  .meta .lbl{font-size:12px; opacity:.9; font-weight:700; letter-spacing:.4px}
   .meta .val{font-weight:800; font-size:16px; line-height:1.25; word-break:break-word}
 
-  /* bottom note */
-  .note{margin-top:14px; text-align:center; font-size:12px; color:var(--muted)}
-
-  /* LTR support (if ?dir=ltr) */
+  /* LTR tweak */
   [dir="ltr"] .vline{order:2}
   [dir="ltr"] .ico{order:1}
   [dir="ltr"] .meta{order:3}
@@ -121,59 +92,40 @@
 <body class="bg">
   <div class="wrap">
     <div class="card">
-      <!-- logo -->
-      <div class="logo-ring">
-        <div class="logo"><img id="logoImg" alt="Logo"></div>
-      </div>
+      <div class="logo-ring"><div class="logo"><img id="logoImg" alt="Logo"></div></div>
 
-      <!-- name / designation -->
       <div class="name" id="name">YOUR NAME</div>
       <div class="designation" id="designation">YOUR DESIGNATION</div>
 
       <div class="dash"></div>
 
-      <!-- buttons -->
       <div class="list">
         <a class="btn" id="btnPhone" href="#">
           <div class="ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.9 19.9 0 0 1-8.6-3.1A19.5 19.5 0 0 1 3.2 9.8 19.9 19.9 0 0 1 .1 1.2 2 2 0 0 1 2.1-1h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L6.1 7.9a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.4c.9.3 1.9.5 2.9.7A2 2 0 0 1 22 16.9Z" fill="currentColor"/></svg>
           </div>
           <div class="vline" aria-hidden="true"></div>
-          <div class="meta">
-            <div class="lbl">PHONE</div>
-            <div class="val" id="phoneText">+971 XX XXX XXXX</div>
-          </div>
+          <div class="meta"><div class="lbl">PHONE</div><div class="val" id="phoneText">+971 XX XXX XXXX</div></div>
         </a>
 
         <a class="btn" id="btnSite" href="#" target="_blank" rel="noopener">
           <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 1 0 18A9 9 0 0 1 12 3Zm6.5 7h-3.1c-.2-2-1-3.8-2.4-5.2A7 7 0 0 1 18.5 10Zm-5.4 0H11V5a8 8 0 0 1 1.1 5ZM11 14v5c-1.9-.6-3.3-2.4-3.6-5H11Zm2 0h3.6c-.3 2.6-1.7 4.4-3.6 5v-5Zm-2 0H7.4c.3-2.6 1.7-4.4 3.6-5v5Z" fill="currentColor"/></svg></div>
           <div class="vline"></div>
-          <div class="meta">
-            <div class="lbl">WEBSITE</div>
-            <div class="val" id="siteText">example.com</div>
-          </div>
+          <div class="meta"><div class="lbl">WEBSITE</div><div class="val" id="siteText">example.com</div></div>
         </a>
 
         <a class="btn" id="btnEmail" href="#">
           <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 0 8 7 8-7" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
           <div class="vline"></div>
-          <div class="meta">
-            <div class="lbl">EMAIL</div>
-            <div class="val" id="emailText">info@example.com</div>
-          </div>
+          <div class="meta"><div class="lbl">EMAIL</div><div class="val" id="emailText">info@example.com</div></div>
         </a>
 
         <a class="btn" id="btnMap" href="#" target="_blank" rel="noopener">
           <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" fill="currentColor"/></svg></div>
           <div class="vline"></div>
-          <div class="meta">
-            <div class="lbl">ADDRESS</div>
-            <div class="val" id="addrText">Your Address Here, City, State</div>
-          </div>
+          <div class="meta"><div class="lbl">ADDRESS</div><div class="val" id="addrText">Your Address Here, City, State</div></div>
         </a>
       </div>
-
-      <div class="note">Tap any row to take action (Call / Visit / Email / Open Map)</div>
     </div>
   </div>
 
@@ -185,12 +137,12 @@
   if (accent) document.documentElement.style.setProperty('--accent', accent);
   if (dirParam === 'ltr' || dirParam === 'rtl') document.documentElement.setAttribute('dir', dirParam);
 
+  // set the poster background
   function applyBg(url){
     const st = document.createElement('style');
     st.textContent = `.bg::before{background-image:url("${url}")}`;
     document.head.appendChild(st);
   }
-  const bgFromQuery = qs.get('bg');
 
   const $ = (id)=>document.getElementById(id);
   const setText = (id, val)=>{ const el=$(id); if(el) el.textContent = val || '—'; };
@@ -210,38 +162,41 @@
   }
 
   function bind(emp){
-    if(emp.logoUrl) $('logoImg').src = emp.logoUrl; else $('logoImg').src = 'assets/logo.png';
-    $('logoImg').onerror = () => { $('logoImg').src='assets/logo.png'; };
-    if(bgFromQuery){ applyBg(bgFromQuery); } else if(emp.bgUrl){ applyBg(emp.bgUrl); }
+    // logo + bg
+    $('logoImg').src = emp.logoUrl || '/assets/logo.png';
+    if (emp.bgUrl) applyBg(emp.bgUrl);
 
+    // text
     setText('name', emp.nameEn || emp.nameAr || 'YOUR NAME');
     setText('designation', emp.title || 'YOUR DESIGNATION');
     setText('phoneText', emp.phone1 || emp.phone || '+971 XX XXX XXXX');
     setText('emailText', emp.email || 'info@example.com');
     setText('addrText', emp.addressEn || emp.addressAr || 'Your Address Here');
 
+    // links
     const phone = emp.phone1 || emp.phone;
-    $('btnPhone').href = phone ? `tel:${phone}` : '#';
-    $('btnEmail').href = emp.email ? `mailto:${emp.email}` : '#';
-    setSiteLink($('btnSite'), emp.site || emp.website || '#');
-    $('btnMap').href = mapHrefFrom(emp);
+    document.getElementById('btnPhone').href = phone ? `tel:${phone}` : '#';
+    document.getElementById('btnEmail').href = emp.email ? `mailto:${emp.email}` : '#';
+    setSiteLink(document.getElementById('btnSite'), emp.site || emp.website || '#');
+    document.getElementById('btnMap').href = mapHrefFrom(emp);
   }
 
+  // demo fallback (white + blue)
   const demo = {
     nameEn:"YOUR NAME", title:"YOUR DESIGNATION",
     phone:"+91 98765 43210", email:"info@website.com",
     site:"https://www.website.com",
     addressEn:"Your Address Here, City, State, Pincode",
-    logoUrl:"assets/logo.png",
-    bgUrl:"assets/bg-blue.jpg"
+    logoUrl:"/assets/logo.png",
+    bgUrl:"/assets/bg-blue.jpg"
   };
 
-  // 👇 Use ROOT-RELATIVE path so it works even if the HTML is in a subfolder
+  // ROOT-RELATIVE path so it works even if HTML is in a subfolder
   const dataPath = id ? `/employees/${encodeURIComponent(id)}.json?c=${Date.now()}` : null;
 
   function showError(msg){
     const div = document.createElement('div');
-    div.style.cssText = "margin:12px 0;padding:10px;border-radius:10px;background:#ffffff1a;border:1px solid #ffffff40;color:#fff;font:600 13px system-ui";
+    div.style.cssText="margin:12px 0;padding:10px;border-radius:10px;background:#f3f7ff;border:1px solid #cfe3ff;color:#0b3b77;font:600 12px system-ui";
     div.textContent = msg;
     document.querySelector('.card').appendChild(div);
   }
@@ -251,7 +206,7 @@
     try {
       const res = await fetch(dataPath, { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const emp = await res.json();  // will throw if JSON invalid
+      const emp = await res.json();
       bind(emp);
     } catch (err) {
       console.error('Employee JSON load failed:', dataPath, err);
@@ -260,6 +215,5 @@
     }
   })();
 </script>
-
 </body>
 </html>
