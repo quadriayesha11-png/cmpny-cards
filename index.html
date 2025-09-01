@@ -1,193 +1,252 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Digital Business Card · Premium</title>
-  <!-- Keep public but discourage indexing -->
-  <meta name="robots" content="noindex,nofollow,noarchive" />
-  <style>
-    :root{
-      --accent:#5b8eff;           /* primary brand accent */
-      --accent-2:#7dffd1;         /* secondary for gradients */
-      --ink:#0b1220;              /* main text */
-      --muted:#5c6470;            /* secondary text */
-      --panel:#ffffff;            /* card surface */
-      --line:#e7e9ee;             /* borders */
-      --soft:#f7f8fb;             /* soft bg */
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; color:var(--ink);
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Dubai","Cairo",sans-serif;
-      background: radial-gradient(1200px 1200px at 20% -10%, rgba(91,142,255,.25), transparent 60%),
-                  radial-gradient(900px 900px at 110% 10%, rgba(125,255,209,.25), transparent 50%),
-                  linear-gradient(180deg, #f9fbff, #f4f6fb);
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Business Card</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
 
-    /* Decorative grid */
-    .grid-bg{position:fixed;inset:0;pointer-events:none;opacity:.25;background-image:linear-gradient(transparent 23px, rgba(11,18,32,.04) 24px),linear-gradient(90deg, transparent 23px, rgba(11,18,32,.04) 24px);background-size:24px 24px}
+<style>
+  :root{
+    --ink:#0b1220; --muted:#5c6470; --line:#e7e9ee; --panel:#fff;
+    --bg:#f6f8ff; --accent:#3b82f6; --accent-2:#60a5fa; --accent-3:#1d4ed8;
+    --wave-1:#e8f0ff; --wave-2:#dbeafe; --btn:#0ea5e9;
+  }
+  /* THEMES */
+  .theme-blue{ --accent:#3b82f6; --accent-2:#60a5fa; --accent-3:#1d4ed8; --wave-1:#e8f0ff; --wave-2:#dbeafe; --btn:#0ea5e9;}
+  .theme-green{ --accent:#10b981; --accent-2:#34d399; --accent-3:#059669; --wave-1:#e7f8f2; --wave-2:#d1fae5; --btn:#0ea5e9;}
+  .theme-orange{ --accent:#f59e0b; --accent-2:#fbbf24; --accent-3:#d97706; --wave-1:#fff4e5; --wave-2:#ffedd5; --btn:#0ea5e9;}
 
-    .wrap{max-width:1100px;margin:0 auto;padding:28px}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Dubai","Cairo",sans-serif;
+    background: radial-gradient(1200px 1200px at -10% -10%, var(--wave-1) 0, transparent 60%),
+                radial-gradient(800px 800px at 110% 0%, var(--wave-2) 0, transparent 50%),
+                linear-gradient(180deg,#fafcff,#f4f7ff);
+    color:var(--ink);
+  }
+  .wrap{max-width:430px;margin:0 auto;padding:18px}
 
-    /* Top header chip */
-    .chip{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.6);backdrop-filter:blur(8px);border:1px solid var(--line);box-shadow:0 8px 24px rgba(11,18,32,.06);font-weight:700}
-    .chip .dot{width:10px;height:10px;border-radius:50%;background:conic-gradient(from 180deg,var(--accent),var(--accent-2))}
+  /* Phone chrome */
+  .phone{
+    position:relative;background:var(--panel);border:1px solid var(--line);
+    border-radius:28px; overflow:hidden; box-shadow:0 18px 40px rgba(11,18,32,.10);
+  }
+  .statusbar{height:12px;background:linear-gradient(180deg,rgba(0,0,0,.06),transparent)}
+  .hero{
+    position:relative;padding:22px 18px 90px;border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(1000px 300px at 0% 0%, var(--wave-1), transparent 60%),
+      radial-gradient(1000px 300px at 100% 0%, var(--wave-2), transparent 60%),
+      linear-gradient(180deg,#fff, #f6f8ff 70%, #eef3ff);
+  }
+  /* curved waves */
+  .hero:after, .hero:before{
+    content:""; position:absolute; inset:auto -20% -1px -20%; height:120px;
+    background: radial-gradient(60% 120px at 0% 100%, var(--accent-2), transparent 60%),
+                radial-gradient(60% 120px at 100% 100%, var(--accent), transparent 60%);
+    opacity:.15; transform:skewY(-4deg);
+  }
 
-    /* Main card */
-    .card{margin-top:18px;display:grid;grid-template-columns:1.15fr .85fr;gap:28px;padding:28px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.7);backdrop-filter:blur(10px);box-shadow:0 16px 40px rgba(11,18,32,.08)}
-    @media (max-width:980px){.card{grid-template-columns:1fr}}
+  /* Tabs */
+  .tabs{
+    display:flex; gap:8px; justify-content:space-between;
+    position:absolute; left:14px; right:14px; bottom:10px;
+    background:#fff; border:1px solid var(--line); border-radius:14px; padding:8px;
+    box-shadow:0 10px 24px rgba(11,18,32,.08);
+  }
+  .tab{flex:1; display:flex; flex-direction:column; align-items:center;
+       gap:6px; padding:8px 4px; border-radius:10px; text-decoration:none; color:var(--ink); font-size:11px}
+  .tab svg{width:18px;height:18px;opacity:.9}
+  .tab:hover{background:#f8fafc}
+  .tab.disabled{opacity:.45; pointer-events:none}
 
-    .brand{display:flex;gap:18px;align-items:flex-start}
-    .logo{width:220px;max-width:40vw;height:auto;object-fit:contain}
-    .legend{border-right:3px solid var(--line);padding-right:16px}
-    .legend .ar{font-size:26px;font-weight:800;letter-spacing:.2px}
-    .legend .en{font-size:14px;color:var(--muted);margin-top:6px}
+  /* Card */
+  .card{
+    padding:16px; margin:12px 12px 90px; border:1px solid var(--line);
+    border-radius:18px; background:linear-gradient(180deg,#ffffff, #f9fbff);
+  }
+  .top{
+    display:flex; gap:12px; align-items:center;
+  }
+  .avatar{
+    width:68px;height:68px;border-radius:16px; overflow:hidden; border:1px solid var(--line);
+    background:#eef2ff; flex:0 0 auto;
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  .title{font-size:18px;font-weight:800;margin:0}
+  .subtitle{color:var(--muted);margin:2px 0 8px;font-weight:600}
+  .company{font-weight:800;margin:4px 0}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#f8fafc; font-size:12px}
 
-    .title{margin:.2rem 0 .6rem;font-size:30px;font-weight:900}
-    .subtitle{color:var(--muted);margin-top:-6px}
-    .address{margin:14px 0;color:var(--ink)}
-    .site a{color:var(--accent);text-decoration:none;font-weight:700}
-    .site a:hover{text-decoration:underline}
+  .list{margin:14px 0 0; display:grid; gap:8px}
+  .row{
+    display:flex; gap:10px; align-items:center; padding:10px 12px; border:1px solid var(--line);
+    border-radius:12px; background:#fff;
+  }
+  .row strong{font-weight:700}
+  .row a{text-decoration:none; color:var(--accent-3)}
+  .row svg{width:18px;height:18px; opacity:.85}
 
-    /* Actions */
-    .actions{margin-top:18px;display:grid;gap:10px}
-    .btn{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,#fbfcff,#f3f6ff);text-decoration:none;color:var(--ink);transition:transform .15s ease, box-shadow .15s ease}
-    .btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(11,18,32,.08)}
-    .btn svg{flex:0 0 18px}
+  .social{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+  .sbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
+        padding:8px 10px;border-radius:10px;background:#fff;text-decoration:none;color:var(--ink); font-size:12px}
+  .sbtn svg{width:16px;height:16px}
 
-    .map{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:18px}
-    .map iframe{width:100%;height:280px;border:0}
-
-    /* Footer bar */
-    .footer{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-    .tag{font-size:12px;padding:6px 10px;border-radius:999px;background:#eef2ff;border:1px solid var(--line)}
-
-    /* EN block (LTR) */
-    .ltr{direction:ltr;text-align:left}
-
-    /* Floating accent ring */
-    .ring{position:absolute;inset:auto auto -60px -60px;width:220px;height:220px;border-radius:50%;filter:blur(18px);background:radial-gradient(circle at 30% 30%, rgba(91,142,255,.5), transparent 60%), radial-gradient(circle at 70% 70%, rgba(125,255,209,.35), transparent 60%);opacity:.7}
-    @media (max-width:980px){.ring{display:none}}
-  </style>
+  /* bottom action bar */
+  .dock{
+    position:sticky; bottom:0; padding:12px;
+  }
+  .dock-inner{
+    display:flex; gap:10px; background:#fff; border:1px solid var(--line); border-radius:14px; padding:8px;
+    box-shadow:0 8px 24px rgba(11,18,32,.08);
+  }
+  .cta{flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
+       padding:12px; border-radius:10px; text-decoration:none; color:#fff; font-weight:800;
+       background:linear-gradient(180deg, var(--accent), var(--accent-3));}
+  .cta.secondary{background:linear-gradient(180deg,#22c55e,#16a34a)}
+  .cta svg{width:18px;height:18px;filter:drop-shadow(0 1px 0 rgba(0,0,0,.15))}
+  .note{font-size:11px;color:var(--muted);text-align:center;margin-top:8px}
+</style>
 </head>
-<body>
-  <div class="grid-bg"></div>
-  <div class="wrap">
-    <div class="chip"><span class="dot"></span><span id="nameAr">اسم الموظف</span></div>
 
-    <div class="card">
-      <!-- LEFT: Brand & Arabic copy -->
-      <div>
-        <div class="brand">
-          <img id="logo" class="logo" src="logo.png" alt="Logo" />
-          <div class="legend">
-            <div class="ar" id="orgAr">اسم الجهة<br/>اسم القسم</div>
-            <div class="en" id="orgEn">Your Organization · Department</div>
+<body class="theme-blue">
+  <div class="wrap">
+    <div class="phone">
+      <div class="statusbar"></div>
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="top">
+          <div class="avatar"><img id="avatar" alt=""></div>
+          <div>
+            <h1 class="title" id="name">اسم الموظف</h1>
+            <div class="subtitle" id="title">المسمى الوظيفي</div>
+            <div class="pill"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="2"/></svg><span id="company">اسم الجهة</span></div>
           </div>
         </div>
 
-        <h1 class="title" id="orgTitle">Your Organization</h1>
-        <div class="subtitle" id="jobTitle">المسمى الوظيفي</div>
-        <div class="address" id="addressAr">العنوان بالعربية</div>
-        <p class="site"><a id="siteLink" href="https://www.example.com" target="_blank" rel="noopener">www.example.com</a></p>
+        <!-- TABS -->
+        <nav class="tabs">
+          <a class="tab" id="tab-basic" href="#basic"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm-8 9a8 8 0 1 1 16 0v1H4v-1Z" fill="currentColor"/></svg><span>Basic Info</span></a>
+          <a class="tab" id="tab-services" target="_blank"><svg viewBox="0 0 24 24"><path d="M4 7h16v4H4V7Zm0 6h10v4H4v-4Z" fill="currentColor"/></svg><span>Service</span></a>
+          <a class="tab" id="tab-gallery" target="_blank"><svg viewBox="0 0 24 24"><path d="M21 19H3V5h18v14Zm-2-4-4-5-5 6-3-4-2 3v2h14v-2Z" fill="currentColor"/></svg><span>Gallery</span></a>
+          <a class="tab" id="tab-payment" target="_blank"><svg viewBox="0 0 24 24"><path d="M3 7h18v10H3V7Zm0 3h18M6 15h6" stroke="currentColor" stroke-width="2" fill="none"/></svg><span>Payment</span></a>
+        </nav>
+      </div>
 
-        <div class="actions">
-          <a class="btn" id="tel1" href="#" aria-label="Call primary number">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.16 9.81 19.86 19.86 0 0 1 .09 1.18 2 2 0 0 1 2.06-.99h3a2 2 0 0 1 2 1.72c.13 1.01.36 1.99.68 2.93a2 2 0 0 1-.45 2.11L6.09 7.91a16 16 0 0 0 6 6l1.14-1.14a2 2 0 0 1 2.11-.45c.94.32 1.92.55 2.93.68A2 2 0 0 1 22 16.92z" fill="currentColor"/></svg>
-            <strong id="tel1Text">+971 50 000 0000</strong>
-          </a>
-          <a class="btn" id="emailBtn" href="#" aria-label="Send email">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 0l8 7 8-7" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-            <strong id="emailText">firstname.lastname@example.com</strong>
-          </a>
-          <a class="btn" id="mapBtn" href="#" target="_blank" rel="noopener" aria-label="Open map">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg>
-            <strong>Open Map</strong>
-          </a>
+      <!-- CONTENT CARD -->
+      <div class="card" id="basic">
+        <div class="row"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3V5Zm2 2v10h14V7H5Z" fill="currentColor"/></svg>
+          <div><strong id="dept">القسم</strong><div style="font-size:12px;color:var(--muted)" id="address">العنوان</div></div>
+        </div>
+        <div class="row"><svg viewBox="0 0 24 24"><path d="M6 19V5l12 7-12 7Z" fill="currentColor"/></svg>
+          <a id="website" href="#" target="_blank" rel="noopener">example.com</a>
+        </div>
+        <div class="row"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.9 19.9 0 0 1-8.6-3.1A19.5 19.5 0 0 1 3.2 9.8 19.9 19.9 0 0 1 .1 1.2 2 2 0 0 1 2.1-1h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L6.1 7.9a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.4c.9.3 1.9.5 2.9.7A2 2 0 0 1 22 16.9Z" fill="currentColor"/></svg>
+          <a id="phone" href="#">+971 00 000 0000</a>
+        </div>
+        <div class="row"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 0 8 7 8-7" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          <a id="email" href="#">someone@example.com</a>
         </div>
 
-        <div class="footer">
-          <span class="tag">Tap to call/email/map</span>
-          <span class="tag">Responsive · Arabic-first</span>
-          <span class="tag">Glass + gradient</span>
+        <div class="social" id="social">
+          <!-- social buttons will inject if available -->
         </div>
       </div>
 
-      <!-- RIGHT: English mirror + map -->
-      <div class="ltr">
-        <div class="ring" aria-hidden="true"></div>
-        <h3 style="margin:0 0 8px;font-weight:800">English</h3>
-        <div id="nameEn" style="font-weight:700;margin-bottom:6px;color:var(--ink)">Employee Name</div>
-        <div id="deptEn" style="color:var(--muted);margin-bottom:10px">Department</div>
-        <div id="addressEn" style="color:var(--ink);margin-bottom:10px">Address in English</div>
-        <div class="map" id="mapEmbed" aria-label="Pinned map"></div>
+      <!-- DOCK -->
+      <div class="dock">
+        <div class="dock-inner">
+          <a class="cta" id="cta-call" href="#"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.9 19.9 0 0 1-8.6-3.1A19.5 19.5 0 0 1 3.2 9.8 19.9 19.9 0 0 1 .1 1.2 2 2 0 0 1 2.1-1h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L6.1 7.9a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.4c.9.3 1.9.5 2.9.7A2 2 0 0 1 22 16.9Z" fill="#fff"/></svg>CALL</a>
+          <a class="cta secondary" id="cta-wa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M.5 12A11.5 11.5 0 1 1 21 20.6L24 24l-3.4-1a11.5 11.5 0 0 1-20.1-11Z" fill="#fff"/></svg>WHATSAPP</a>
+        </div>
+        <div class="note">Tap the buttons to contact</div>
       </div>
     </div>
   </div>
 
-  <script>
-    // Read ID from URL (GUID) and fetch the matching JSON file.
-    const id = new URLSearchParams(location.search).get('id');
-    const path = id ? `employees/${id}.json?v=${Date.now()}` : null;
+<script>
+  const qs = new URLSearchParams(location.search);
+  const id = qs.get('id');
+  const theme = (qs.get('theme')||'blue').toLowerCase();
 
-    function setText(id, text){ const el=document.getElementById(id); if(el) el.innerHTML = (text||'').toString().replace(/\n/g,'<br/>'); }
+  // apply theme class
+  document.body.classList.remove('theme-blue','theme-green','theme-orange');
+  document.body.classList.add(`theme-${['blue','green','orange'].includes(theme)?theme:'blue'}`);
 
-    function pinMapFrom(coordsOrText){
-      const embed = document.getElementById('mapEmbed');
-      const mapBtn = document.getElementById('mapBtn');
-      if(!embed || !mapBtn) return;
-      if(typeof coordsOrText === 'object' && coordsOrText && 'lat' in coordsOrText){
-        const {lat,lng} = coordsOrText;
-        embed.innerHTML = `<iframe src="https://maps.google.com/maps?output=embed&q=loc:${lat},${lng}&z=16" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
-        mapBtn.href = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-      } else {
-        const q = encodeURIComponent(coordsOrText||'');
-        embed.innerHTML = `<iframe src="https://maps.google.com/maps?output=embed&q=${q}&z=16" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>`;
-        mapBtn.href = `https://www.google.com/maps/search/?api=1&query=${q}`;
-      }
-    }
+  // lightweight helper
+  const $ = id => document.getElementById(id);
+  const safeSet = (id, val) => { const el=$(id); if(!el) return; if(el.tagName==='A') { el.textContent=val||'—'; } else { el.textContent=val||'—'; } };
 
-    function bind(emp){
-      // Arabic side
-      setText('nameAr', emp.nameAr || emp.nameEn || '—');
-      setText('jobTitle', emp.title || '');
-      setText('addressAr', emp.addressAr || '');
-      const siteA = document.getElementById('siteLink');
-      if(emp.site){ siteA.href = emp.site; try{ siteA.textContent = new URL(emp.site).host }catch{ siteA.textContent = emp.site } }
-      const logo = document.getElementById('logo'); if(emp.logoUrl) logo.src = emp.logoUrl; logo.onerror = ()=>{ logo.style.display='none'; };
-      const tel1 = document.getElementById('tel1'); const tel1Text=document.getElementById('tel1Text');
-      tel1.href = emp.phone1?`tel:${emp.phone1}`:'#'; tel1Text.textContent = emp.phone1||'—';
-      const emailBtn=document.getElementById('emailBtn'); const emailText=document.getElementById('emailText');
-      emailBtn.href = emp.email?`mailto:${emp.email}`:'#'; emailText.textContent = emp.email||'—';
+  // Social button factory
+  function makeSocial(label, href, svgPath){
+    const a = document.createElement('a');
+    a.className='sbtn'; a.href=href; a.target="_blank"; a.rel="noopener";
+    a.innerHTML=`<svg viewBox="0 0 24 24"><path d="${svgPath}" fill="currentColor"/></svg>${label}`;
+    return a;
+  }
 
-      // English mirror
-      setText('nameEn', emp.nameEn || emp.nameAr || '—');
-      setText('deptEn', emp.dept || '');
-      setText('addressEn', emp.addressEn || '');
+  // Fill UI
+  function bind(emp){
+    // basics
+    safeSet('name', emp.nameAr || emp.nameEn);
+    safeSet('title', emp.title);
+    safeSet('company', emp.company || emp.org);
+    safeSet('dept', emp.dept || '');
+    safeSet('address', emp.addressAr || emp.addressEn || '');
+    $('avatar').src = emp.photo || 'https://dummyimage.com/300x300/eee/aaa.jpg&text=Photo';
+    $('avatar').alt = emp.nameEn || emp.nameAr || '';
 
-      // Map priority: lat/lng → mapUrl → address
-      if(typeof emp.lat==='number' && typeof emp.lng==='number'){
-        pinMapFrom({lat:emp.lat,lng:emp.lng});
-      } else if(emp.mapUrl){
-        try{ const u=new URL(emp.mapUrl); const q=u.searchParams.get('query')||u.searchParams.get('q')||emp.mapUrl; pinMapFrom(q); }
-        catch{ pinMapFrom(emp.mapUrl); }
-      } else {
-        pinMapFrom(emp.addressEn || emp.addressAr || '');
-      }
-    }
+    // links
+    if(emp.website){ $('website').href = emp.website; $('website').textContent = (new URL(emp.website)).host; } else {$('website').remove();}
+    if(emp.phone){ $('phone').href = `tel:${emp.phone}`; $('phone').textContent = emp.phone; }
+    if(emp.email){ $('email').href = `mailto:${emp.email}`; $('email').textContent = emp.email; }
 
-    if(!path){
-      document.body.insertAdjacentHTML('beforeend','<div style="padding:14px">No id provided (?id=...)</div>');
-    } else {
-      fetch(path)
-        .then(r=>{ if(!r.ok) throw new Error('Not found'); return r.json(); })
-        .then(bind)
-        .catch(()=>{
-          document.body.insertAdjacentHTML('beforeend','<div style="padding:14px;color:#9b1c1c;background:#fff3f3;border:1px solid #f5c2c2;border-radius:10px;margin:14px">Card not found for this link.</div>');
-        });
-    }
-  </script>
+    // dock
+    $('cta-call').href = emp.phone ? `tel:${emp.phone}` : '#';
+    $('cta-wa').href = emp.whatsapp ? `https://wa.me/${emp.whatsapp.replace(/\D/g,'')}` :
+                     (emp.phone ? `https://wa.me/${emp.phone.replace(/\D/g,'')}` : '#');
+
+    // tabs (enable only if URL present)
+    const tSvc=$('tab-services'), tGal=$('tab-gallery'), tPay=$('tab-payment');
+    if(emp.servicesUrl){ tSvc.href=emp.servicesUrl; } else { tSvc.classList.add('disabled'); }
+    if(emp.galleryUrl){ tGal.href=emp.galleryUrl; } else { tGal.classList.add('disabled'); }
+    if(emp.paymentUrl){ tPay.href=emp.paymentUrl; } else { tPay.classList.add('disabled'); }
+
+    // socials
+    const box = $('social');
+    const socials = [
+      emp.linkedin && ['LinkedIn', emp.linkedin, 'M4 4h16v16H4z M7 7h3v3H7V7zm0 5h3v6H7v-6zm5 0h3v3h-3v-3zm0-5h3v3h-3V7z'],
+      emp.instagram && ['Instagram', emp.instagram, 'M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2z'],
+      emp.twitter && ['X', emp.twitter, 'M3 3h5l5 7 5-7h5l-8 10 8 8h-5l-5-7-5 7H3l8-8L3 3z'],
+      emp.facebook && ['Facebook', emp.facebook, 'M14 3h4v4h-3v3h3v4h-3v7h-4v-7H8v-4h3V7a4 4 0 0 1 3-4z']
+    ].filter(Boolean);
+
+    socials.forEach(([label, href, path]) => box.appendChild(makeSocial(label, href, path)));
+  }
+
+  // Load data: employees/<id>.json or demo fallback
+  const dataPath = id ? `employees/${id}.json?v=${Date.now()}` : null;
+
+  const demo = {
+    nameAr:"شيخار جاين", nameEn:"Shekhar Jain", title:"Managing Director",
+    company:"Pacewalk to digitize", dept:"Marketing & Design",
+    addressAr:"برج 4، شارع في آي بي، زيراكبور", addressEn:"Flat 1113, Tower 4, VIP Road, Zirakpur",
+    phone:"+91 73073 73074", whatsapp:"+91 73073 73074", email:"care@pacewalk.com",
+    website:"https://www.pacewalk.com", photo:"https://dummyimage.com/600x600/f0f0f0/888.jpg&text=SJ",
+    servicesUrl:"#", galleryUrl:"#", paymentUrl:"#",
+    linkedin:"#", instagram:"#"
+  };
+
+  if(!dataPath){
+    bind(demo);
+  } else {
+    fetch(dataPath).then(r => { if(!r.ok) throw 0; return r.json(); })
+      .then(bind)
+      .catch(() => bind(demo));
+  }
+</script>
 </body>
 </html>
