@@ -9,11 +9,11 @@
 <style>
   :root{
     --ink:#ffffff;
-    --muted:#e9e9ee;
-    --accent:#9b34ff;          /* change via ?accent= */
+    --muted:#dbe9ff;
+    --accent:#1977d2;          /* default blue; override via ?accent= */
     --line:rgba(255,255,255,.25);
     --panel:rgba(255,255,255,.08);
-    --panel-2:rgba(0,0,0,.25);
+    --panel-2:rgba(0,35,90,.28);
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -21,24 +21,24 @@
     margin:0;
     font-family: system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Dubai","Cairo",sans-serif;
     color:var(--ink);
-    /* fallback gradient if no bg image */
+    /* BLUE fallback gradient if no bg image */
     background:
-      radial-gradient(1200px 800px at 10% -10%, #8a2be2 0, transparent 60%),
-      radial-gradient(900px 700px at 110% 0%, #ff2d86 0, transparent 50%),
-      linear-gradient(180deg,#3c0b5a,#8b2c7b 40%, #4b0f6b);
+      radial-gradient(1200px 800px at 10% -10%, #0f62c9 0, transparent 60%),
+      radial-gradient(900px 700px at 110% 0%, #45b2ff 0, transparent 50%),
+      linear-gradient(180deg,#0d3d73,#1977d2 30%, #0c5aa8 75%);
   }
   /* custom background layer (set from JS) */
   .bg::before{
     content:""; position:fixed; inset:0; z-index:-2;
     background-size:cover; background-position:center; background-repeat:no-repeat;
-    filter:contrast(1.05) saturate(1.1);
+    filter:contrast(1.05) saturate(1.08);
   }
   /* dark overlay for readability */
   .bg::after{
     content:""; position:fixed; inset:0; z-index:-1;
     background:
-      radial-gradient(1200px 700px at 50% 0%, rgba(0,0,0,.25), transparent 60%),
-      linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.55));
+      radial-gradient(1200px 700px at 50% 0%, rgba(0,22,45,.25), transparent 60%),
+      linear-gradient(180deg, rgba(0,18,40,.45), rgba(0,18,40,.55));
   }
 
   .wrap{max-width:440px;margin:0 auto;padding:18px}
@@ -59,7 +59,7 @@
     position:relative; display:grid; place-items:center;
     background:
       radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 60%),
-      conic-gradient(from 0deg, var(--accent), #ff4db1, var(--accent));
+      conic-gradient(from 0deg, var(--accent), #45b2ff, var(--accent));
     padding:3px;
     box-shadow:0 10px 24px rgba(0,0,0,.35);
   }
@@ -234,14 +234,14 @@
     $('btnMap').href = mapHrefFrom(emp);
   }
 
-  // Demo fallback
+  // Demo fallback (now blue bg by default)
   const demo = {
     nameEn:"YOUR NAME", title:"YOUR DESIGNATION",
     phone:"+91 98765 43210", email:"info@website.com",
     site:"https://www.website.com",
     addressEn:"Your Address Here, City, State, Pincode",
     logoUrl:"assets/logo.png",
-    bgUrl:"assets/bg-purple.jpg"
+    bgUrl:"assets/bg-blue.jpg"
   };
 
   const dataPath = id ? `employees/${id}.json?v=${Date.now()}` : null;
