@@ -63,9 +63,9 @@
 <body>
   <div class="wrap">
     <div class="card">
-      <!-- Logo -->
+      <!-- Logo fixed -->
       <div class="logo-ring">
-        <div class="logo"><img id="logoImg" alt="Logo"></div>
+        <div class="logo"><img src="assets/l1.png" alt="Logo"></div>
       </div>
 
       <!-- Name / Designation -->
@@ -95,7 +95,7 @@
           <div class="meta"><div class="lbl">EMAIL</div><div class="val" id="emailText">info@example.com</div></div>
         </a>
 
-        <!-- Map button with only "Open Map" -->
+        <!-- Map button fixed -->
         <a class="btn" id="btnMap" href="https://maps.app.goo.gl/ZifwVaEtYV7Ynay79" target="_blank" rel="noopener">
           <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" fill="currentColor"/></svg></div>
           <div class="vline"></div>
@@ -145,9 +145,6 @@
   }
 
   function bind(emp){
-    $('logoImg').src = emp.logoUrl || emp.logo || 'https://dummyimage.com/400x400/ffffff/cccccc&text=Logo';
-    $('logoImg').onerror = () => { $('logoImg').src='https://dummyimage.com/400x400/ffffff/cccccc&text=Logo'; };
-
     const name  = emp.nameEn || emp.name || 'YOUR NAME';
     const title = emp.title || 'YOUR DESIGNATION';
     const phone = emp.phone1 || '+971 XX XXX XXXX';
@@ -170,8 +167,7 @@
       title:"YOUR DESIGNATION",
       phone:"+971 50 000 0000",
       email:"info@website.com",
-      site:"https://www.website.com",
-      logoUrl:"https://dummyimage.com/600x600/ffffff/cccccc&text=LOGO"
+      site:"https://www.website.com"
     };
 
     if(!key){ bind(demo); return; }
