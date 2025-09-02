@@ -64,9 +64,16 @@
   <div class="wrap">
     <div class="card">
       <!-- Logo fixed -->
-      <div class="logo-ring">
-        <div class="logo"><img src="assets/Logo.jpg" alt="Logo"></div>
-      </div>
+<div class="logo-ring">
+  <div class="logo">
+    <img
+      src="assets/Logo.jpg"
+      alt="Logo"
+      onerror="console.error('Logo not found at', this.src); this.src='https://dummyimage.com/400x400/ffffff/cccccc&text=Logo';"
+    >
+  </div>
+</div>
+
 
       <!-- Name / Designation -->
       <div class="name" id="name">YOUR NAME</div>
