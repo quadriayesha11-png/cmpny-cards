@@ -95,10 +95,13 @@
           <div class="meta"><div class="lbl">EMAIL</div><div class="val" id="emailText">info@example.com</div></div>
         </a>
 
-        <a class="btn" id="btnMap" href="#" target="_blank" rel="noopener">
+        <!-- Map button with fixed pinned link -->
+        <a class="btn" id="btnMap" href="https://maps.app.goo.gl/ZifwVaEtYV7Ynay79" target="_blank" rel="noopener">
           <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" fill="currentColor"/></svg></div>
           <div class="vline"></div>
-          <div class="meta"><div class="lbl">ADDRESS</div><div class="val" id="addrText">Your Address Here, City, State</div></div>
+          <div class="meta"><div class="lbl">ADDRESS</div>
+            <div class="val" id="addrText">Al Majaz 3, Sharjah</div>
+          </div>
         </a>
       </div>
 
@@ -108,12 +111,9 @@
 
 <script>
   const qs = new URLSearchParams(location.search);
-  const empParam = qs.get('emp');          // ?emp=Emp1 OR ?emp=folder/Emp1.json
-  const idParam  = qs.get('id');           // legacy ?id=Emp1
+  const empParam = qs.get('emp');
+  const idParam  = qs.get('id');
   const key      = empParam || idParam;
-
-  // Always open this pinned place (no map fields needed in JSON)
-  const MAP_FALLBACK = "https://maps.app.goo.gl/ZifwVaEtYV7Ynay79";
 
   const $ = (id)=>document.getElementById(id);
   const setText = (id,val)=>{ const el=$(id); if(el) el.textContent=val||'—'; };
@@ -124,10 +124,6 @@
     catch{ el.href = href; $('siteText').textContent = href; }
   }
 
-  // Always return the pinned map link (JSON has no map fields)
-  function mapHrefFrom(){ return MAP_FALLBACK; }
-
-  // Try multiple possible JSON paths (first that loads wins)
   async function fetchFirst(urls){
     for(const url of urls){
       try{
@@ -136,17 +132,17 @@
           const data = await r.json();
           return {data, used:url};
         }
-      }catch(e){ /* try next */ }
+      }catch(e){ }
     }
-    throw new Error('No JSON found at: ' + urls.join(', '));
+    throw new Error('No JSON found');
   }
 
   function resolvePaths(key){
     if(!key) return null;
     const p = [];
-    if(/\.json$/i.test(key)) p.push(key);  // exact path
-    p.push(`${key}.json`);                 // same folder
-    p.push(`employees/${key}.json`);       // employees subfolder
+    if(/\.json$/i.test(key)) p.push(key);
+    p.push(`${key}.json`);
+    p.push(`employees/${key}.json`);
     return p;
   }
 
@@ -159,18 +155,15 @@
     const phone = emp.phone1 || emp.phone || emp.mobile || '+971 XX XXX XXXX';
     const site  = emp.site || emp.website || '#';
     const email = emp.email || 'info@example.com';
-    const addr  = emp.addressEn || emp.addressAr || 'Your Address Here';
 
     setText('name', name);
     setText('designation', title);
     setText('phoneText', phone);
     setText('emailText', email);
-    setText('addrText', addr);
 
     $('btnPhone').href = phone && phone !== '—' ? `tel:${phone}` : '#';
     $('btnEmail').href = email && email !== '—' ? `mailto:${email}` : '#';
     setSiteLink($('btnSite'), site);
-    $('btnMap').href = mapHrefFrom();  // always pinned place
   }
 
   (async function init(){
@@ -180,7 +173,6 @@
       phone:"+971 50 000 0000",
       email:"info@website.com",
       site:"https://www.website.com",
-      addressEn:"Your Address Here, City, State, Pincode",
       logoUrl:"https://dummyimage.com/600x600/ffffff/cccccc&text=LOGO"
     };
 
