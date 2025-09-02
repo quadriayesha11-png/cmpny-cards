@@ -112,7 +112,10 @@
 
 <script>
   const qs = new URLSearchParams(location.search);
-  const id = qs.get('id');
+  const empParam = qs.get('emp');          // new: ?emp=Emp1  OR ?emp=staff/Emp1.json
+  const idParam  = qs.get('id');           // legacy support: ?id=Emp1
+  const key      = empParam || idParam;    // which key to use
+
   const $ = (id)=>document.getElementById(id);
   const setText = (id,val)=>{ const el=$(id); if(el) el.textContent=val||'—'; };
 
@@ -129,33 +132,77 @@
     return `https://www.google.com/maps/search/?api=1&query=${q}`;
   }
 
-  function bind(emp){
-    $('logoImg').src = emp.logoUrl || 'https://dummyimage.com/400x400/ffffff/cccccc&text=Logo';
-    setText('name', emp.nameEn || emp.nameAr || 'YOUR NAME');
-    setText('designation', emp.title || 'YOUR DESIGNATION');
-    setText('phoneText', emp.phone1 || emp.phone || '+971 XX XXX XXXX');
-    setText('emailText', emp.email || 'info@example.com');
-    setText('addrText', emp.addressEn || emp.addressAr || 'Your Address Here');
-    const phone=emp.phone1||emp.phone;
-    $('btnPhone').href=phone?`tel:${phone}`:'#';
-    $('btnEmail').href=emp.email?`mailto:${emp.email}`:'#';
-    setSiteLink($('btnSite'), emp.site || emp.website || '#');
-    $('btnMap').href=mapHrefFrom(emp);
+  // Try multiple possible JSON paths in order (first that loads wins)
+  async function fetchFirst(urls){
+    for(const url of urls){
+      try{
+        const r = await fetch(url, {cache:'no-store'});
+        if(r.ok){
+          const data = await r.json();
+          return {data, used:url};
+        }
+      }catch(e){ /* ignore and try next */ }
+    }
+    throw new Error('No JSON found at: ' + urls.join(', '));
   }
 
-  const dataPath = id ? `employees/${id}.json?v=${Date.now()}` : null;
-  const demo = {
-    nameEn:"YOUR NAME", title:"YOUR DESIGNATION",
-    phone:"+971 50 000 0000", email:"info@website.com",
-    site:"https://www.website.com",
-    addressEn:"Your Address Here, City, State, Pincode",
-    logoUrl:"https://dummyimage.com/600x600/ffffff/cccccc&text=LOGO"
-  };
-  if(!dataPath){ bind(demo); }
-  else{
-    fetch(dataPath).then(r=>{ if(!r.ok) throw 0; return r.json(); })
-      .then(bind).catch(()=> bind(demo));
+  function resolvePaths(key){
+    if(!key) return null;
+    const paths = [];
+    // if user passed a full .json path, use as-is first
+    if(/\.json$/i.test(key)) paths.push(key);
+    // then try relative (root) e.g., Emp1.json
+    paths.push(`${key}.json`);
+    // also try employees subfolder e.g., employees/Emp1.json
+    paths.push(`employees/${key}.json`);
+    return paths;
   }
+
+  function bind(emp){
+    // Accept different possible field names smoothly
+    $('logoImg').src = emp.logoUrl || emp.logo || 'https://dummyimage.com/400x400/ffffff/cccccc&text=Logo';
+    $('logoImg').onerror = () => { $('logoImg').src='https://dummyimage.com/400x400/ffffff/cccccc&text=Logo'; };
+
+    const name = emp.nameEn || emp.nameAr || emp.name || emp.fullName || 'YOUR NAME';
+    const title = emp.title || emp.designation || emp.position || '';
+    const phone = emp.phone1 || emp.phone || emp.mobile || '';
+    const site  = emp.site || emp.website || '';
+    const email = emp.email || '';
+    const addr  = emp.addressEn || emp.addressAr || emp.address || '';
+
+    setText('name', name);
+    setText('designation', title || 'YOUR DESIGNATION');
+    setText('phoneText', phone || '+971 XX XXX XXXX');
+    setText('emailText', email || 'info@example.com');
+    setText('addrText', addr || 'Your Address Here');
+
+    $('btnPhone').href = phone ? `tel:${phone}` : '#';
+    $('btnEmail').href = email ? `mailto:${email}` : '#';
+    setSiteLink($('btnSite'), site || '#');
+    $('btnMap').href = mapHrefFrom(emp);
+  }
+
+  (async function init(){
+    const demo = {
+      nameEn:"YOUR NAME", title:"YOUR DESIGNATION",
+      phone:"+971 50 000 0000", email:"info@website.com",
+      site:"https://www.website.com",
+      addressEn:"Your Address Here, City, State, Pincode",
+      logoUrl:"https://dummyimage.com/600x600/ffffff/cccccc&text=LOGO"
+    };
+
+    if(!key){ bind(demo); return; }
+
+    const candidates = resolvePaths(key);
+    try{
+      const {data, used} = await fetchFirst(candidates);
+      bind(data);
+      // console.log('Loaded employee JSON:', used);
+    }catch(err){
+      // console.warn(err);
+      bind(demo);
+    }
+  })();
 </script>
 </body>
 </html>
