@@ -1,9 +1,8 @@
 {
-  "nameEn": "Ahmed",
-  "title": "SW Engineer",
-  "company": "SA",
-  "dept": "SW Engineering",
+  "nameAr": "أحمد العلي",
+  "titleAr": "مهندس برمجيات",
   "phone1": "+971500000000",
-  "email": "Ahmed@example.com",
-  "site": "https://example.com"
+  "email": "ahmed@example.com",
+  "site": "https://example.com",
+  "whatsapp": "+971500000000"
 }
