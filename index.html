@@ -28,30 +28,38 @@
         box-shadow:0 6px 18px rgba(0,0,0,.15);}
   .logo img{width:100%;height:100%;object-fit:contain}
 
-  .name{ text-align:center; font-size:28px; font-weight:900; margin:10px 8px 6px; color:#222; }
-  .designation{ text-align:center; font-weight:700; color:#555; margin-bottom:12px }
+  .name{ text-align:center; font-size:28px; font-weight:900; margin:10px 8px 6px; color:#003366; }
+  .designation{ text-align:center; font-weight:700; color:#00509e; margin-bottom:12px }
 
   .dash{margin:8px auto 14px; width:100%; height:1px; background:#eee}
 
   .list{display:grid; gap:9px}
+
+  /* -------- Buttons: light blue theme -------- */
   .btn{
     display:flex; align-items:center; gap:12px;
     padding:10px 14px;
     border-radius:12px;
-    background:#f8f8f8;
-    border:1px solid #ddd;
+    background:#e6f3ff;                  /* light blue background */
+    border:1px solid #b3daff;            /* light blue border */
     text-decoration:none;
-    color:#000;
+    color:#004080;                       /* dark blue text */
     box-shadow:0 2px 6px rgba(0,0,0,.05);
-    transition:background .15s;
+    transition:background .15s, transform .12s;
   }
-  .btn:hover{ background:#f0f0f0 }
-  .ico{width:36px; height:36px; border-radius:8px; display:grid; place-items:center; flex:0 0 36px;
-       background:#fff; border:1px solid #ddd}
-  .ico svg{width:18px;height:18px;color:#333}
-  .vline{width:1px; height:24px; background:#ddd}
-  .meta .lbl{font-size:12px; color:#666; font-weight:700}
-  .meta .val{font-weight:800; font-size:15px; color:#000}
+  .btn:hover{
+    background:#d4ebff;                  /* slightly darker on hover */
+    transform:translateY(-1px);
+  }
+  .ico{
+    width:36px; height:36px; border-radius:8px; display:grid; place-items:center; flex:0 0 36px;
+    background:#fff;
+    border:1px solid #b3daff;
+  }
+  .ico svg{width:18px;height:18px;color:#0073e6}  /* icon color */
+  .vline{width:1px; height:24px; background:#b3daff}
+  .meta .lbl{font-size:12px; color:#0073e6; font-weight:700}
+  .meta .val{font-weight:800; font-size:15px; color:#004080}
 
   .note{margin-top:12px; text-align:center; font-size:12px; color:#666}
 </style>
