@@ -22,11 +22,30 @@
     box-shadow:0 12px 28px rgba(0,0,0,.25);
     position:relative;
   }
-  /* Logo */
-  .logo-ring{width:122px;height:122px;margin:6px auto 10px; border:none; box-shadow:none; background:transparent;}
-  .logo{width:110px;height:110px;border-radius:50%; background:#fff; overflow:hidden; margin:auto;
-        box-shadow:0 6px 18px rgba(0,0,0,.15);}
-  .logo img{width:100%;height:100%;object-fit:contain}
+
+  /* Logo - bigger and square */
+  .logo-ring{
+    width:160px;
+    height:160px;
+    margin:6px auto 10px;
+    border:none;
+    box-shadow:none;
+    background:transparent;
+  }
+  .logo{
+    width:160px;
+    height:160px;
+    border-radius:0;          /* pure square */
+    background:#fff;
+    overflow:hidden;
+    margin:auto;
+    box-shadow:0 6px 18px rgba(0,0,0,.15);
+  }
+  .logo img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+  }
 
   .name{ text-align:center; font-size:28px; font-weight:900; margin:10px 8px 6px; color:#003366; }
   .designation{ text-align:center; font-weight:700; color:#00509e; margin-bottom:12px }
@@ -63,12 +82,10 @@
 <body>
   <div class="wrap">
     <div class="card">
-      <!-- Logo fixed -->
-<div class="logo-ring">
-  <div class="logo"><img src="Logo.jpg" alt="Logo"></div>
-</div>
-
-
+      <!-- Logo fixed square -->
+      <div class="logo-ring">
+        <div class="logo"><img src="Logo.png" alt="Logo"></div>
+      </div>
 
       <!-- Name / Designation -->
       <div class="name" id="name">YOUR NAME</div>
