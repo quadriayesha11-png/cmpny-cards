@@ -8,12 +8,9 @@
   "email": "Ahmed@example.com",
   "site": "https://example.com",
   "logoUrl": "assets/logo.png",
-  "bgUrl": "assets/bg-blue.jpg",
   "addressAr": "89GH+JHW - المجاز 3 - المجاز - الشارقة",
   "addressEn": "89GH+JHW - Al Majaz 3 - Al Majaz - Sharjah",
   "mapUrl": "https://www.google.com/maps/search/?api=1&query=89GH+JHW,+Al+Majaz+3,+Al+Majaz,+Sharjah"
   "whatsapp": "+971500000000",
-  "servicesUrl": "#",
-  "galleryUrl": "#",
-  "paymentUrl": "#"
+
 }
