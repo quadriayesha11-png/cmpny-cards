@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -95,13 +95,11 @@
           <div class="meta"><div class="lbl">EMAIL</div><div class="val" id="emailText">info@example.com</div></div>
         </a>
 
-        <!-- Map button with fixed pinned link -->
+        <!-- Map button with only "Open Map" -->
         <a class="btn" id="btnMap" href="https://maps.app.goo.gl/ZifwVaEtYV7Ynay79" target="_blank" rel="noopener">
           <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" fill="currentColor"/></svg></div>
           <div class="vline"></div>
-          <div class="meta"><div class="lbl">ADDRESS</div>
-            <div class="val" id="addrText">Al Majaz 3, Sharjah</div>
-          </div>
+          <div class="meta"><div class="val">Open Map</div></div>
         </a>
       </div>
 
@@ -150,10 +148,10 @@
     $('logoImg').src = emp.logoUrl || emp.logo || 'https://dummyimage.com/400x400/ffffff/cccccc&text=Logo';
     $('logoImg').onerror = () => { $('logoImg').src='https://dummyimage.com/400x400/ffffff/cccccc&text=Logo'; };
 
-    const name  = emp.nameEn || emp.nameAr || emp.name || emp.fullName || 'YOUR NAME';
-    const title = emp.title || emp.designation || emp.position || 'YOUR DESIGNATION';
-    const phone = emp.phone1 || emp.phone || emp.mobile || '+971 XX XXX XXXX';
-    const site  = emp.site || emp.website || '#';
+    const name  = emp.nameEn || emp.name || 'YOUR NAME';
+    const title = emp.title || 'YOUR DESIGNATION';
+    const phone = emp.phone1 || '+971 XX XXX XXXX';
+    const site  = emp.site || '#';
     const email = emp.email || 'info@example.com';
 
     setText('name', name);
