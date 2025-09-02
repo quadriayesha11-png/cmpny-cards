@@ -3,10 +3,9 @@
   "title": "SW Engineer",
   "company": "SA",
   "dept": "SW Engineering",
-  "addressEn": "Al Buhaira - Crescent Tower - Corniche St - Al Majaz 3 - Sharjah",
-  "addressAr": "البحيرة - برج كريسينت - شارع الكورنيش - المجاز 3 - الشارقة",
   "phone1": "+971500000000",
   "email": "Ahmed@example.com",
   "site": "https://example.com",
-  "logoUrl": "assets/logo.png"
+  "logoUrl": "assets/logo.png",
+  "whatsapp": "+971500000000"
 }
