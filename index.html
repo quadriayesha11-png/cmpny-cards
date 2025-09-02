@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,15 +23,10 @@
     position:relative;
   }
 
-  /* ---- Logo: bigger, completely flat (no shadow, no bg), square ---- */
-  .logo-wrap{
-    width:170px; height:170px; margin:0 auto 8px; display:grid; place-items:center;
-  }
-  .logo{ width:170px; height:170px; border-radius:0; overflow:hidden; }
-  .logo img{
-    width:100%; height:100%; object-fit:contain; display:block;
-    background:transparent; /* ensure no white tile behind PNGs */
-  }
+  /* Logo – square, flat */
+  .logo-wrap{width:170px;height:170px;margin:0 auto 8px;display:grid;place-items:center}
+  .logo{width:170px;height:170px;border-radius:0;overflow:hidden}
+  .logo img{width:100%;height:100%;object-fit:contain;display:block;background:transparent}
 
   .name{ text-align:center; font-size:28px; font-weight:900; margin:10px 8px 6px; color:#003366; }
   .designation{ text-align:center; font-weight:700; color:#00509e; margin-bottom:12px }
@@ -61,7 +56,10 @@
   .vline{width:1px; height:24px; background:#b3daff}
   .meta .lbl{font-size:12px; color:#0073e6; font-weight:700}
   .meta .val{font-weight:800; font-size:15px; color:#004080}
-  [dir="rtl"] .vline{order:2} [dir="rtl"] .ico{order:1} [dir="rtl"] .meta{order:3}
+
+  /* Direction-aware order (icons/line/text) */
+  [dir="rtl"] .ico{order:1}  [dir="rtl"] .vline{order:2} [dir="rtl"] .meta{order:3}
+  [dir="ltr"] .ico{order:1}  [dir="ltr"] .vline{order:2} [dir="ltr"] .meta{order:3}
 
   .note{margin-top:12px; text-align:center; font-size:12px; color:#666}
 </style>
@@ -69,58 +67,77 @@
 <body>
   <div class="wrap">
     <div class="card">
-      <!-- Logo fixed square PNG, no shadow -->
+      <!-- Fixed logo (same folder as index.html or adjust path) -->
       <div class="logo-wrap">
         <div class="logo"><img src="Logo.png" alt="Logo"></div>
       </div>
 
-      <!-- Name / Designation -->
-      <div class="name" id="name">YOUR NAME</div>
-      <div class="designation" id="designation">YOUR DESIGNATION</div>
+      <!-- Name / Title -->
+      <div class="name" id="name">اسمك هنا</div>
+      <div class="designation" id="designation">مسمّاك الوظيفي</div>
       <div class="dash"></div>
 
-      <!-- Contact Buttons -->
+      <!-- Buttons -->
       <div class="list">
         <a class="btn" id="btnPhone" href="#">
           <div class="ico">
             <svg viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.9 19.9 0 0 1-8.6-3.1A19.5 19.5 0 0 1 3.2 9.8 19.9 19.9 0 0 1 .1 1.2 2 2 0 0 1 2.1-1h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L6.1 7.9a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.4c.9.3 1.9.5 2.9.7A2 2 0 0 1 22 16.9Z" fill="currentColor"/></svg>
           </div>
           <div class="vline"></div>
-          <div class="meta"><div class="lbl" id="lblPhone">PHONE</div><div class="val" id="phoneText">+971 XX XXX XXXX</div></div>
+          <div class="meta"><div class="lbl" id="lblPhone">الهاتف</div><div class="val" id="phoneText">+971 XX XXX XXXX</div></div>
         </a>
 
         <a class="btn" id="btnSite" href="#" target="_blank" rel="noopener">
           <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 1 0 18A9 9 0 0 1 12 3Zm6.5 7h-3.1c-.2-2-1-3.8-2.4-5.2A7 7 0 0 1 18.5 10Zm-5.4 0H11V5a8 8 0 0 1 1.1 5ZM11 14v5c-1.9-.6-3.3-2.4-3.6-5H11Zm2 0h3.6c-.3 2.6-1.7 4.4-3.6 5v-5Zm-2 0H7.4c.3-2.6 1.7-4.4 3.6-5v5Z" fill="currentColor"/></svg></div>
           <div class="vline"></div>
-          <div class="meta"><div class="lbl" id="lblSite">WEBSITE</div><div class="val" id="siteText">example.com</div></div>
+          <div class="meta"><div class="lbl" id="lblSite">الموقع</div><div class="val" id="siteText">example.com</div></div>
         </a>
 
         <a class="btn" id="btnEmail" href="#">
           <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 0 8 7 8-7" stroke="currentColor" stroke-width="2" fill="none"/></svg></div>
           <div class="vline"></div>
-          <div class="meta"><div class="lbl" id="lblEmail">EMAIL</div><div class="val" id="emailText">info@example.com</div></div>
+          <div class="meta"><div class="lbl" id="lblEmail">البريد الإلكتروني</div><div class="val" id="emailText">info@example.com</div></div>
         </a>
 
         <!-- Map button fixed -->
         <a class="btn" id="btnMap" href="https://maps.app.goo.gl/ZifwVaEtYV7Ynay79" target="_blank" rel="noopener">
           <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" fill="currentColor"/></svg></div>
           <div class="vline"></div>
-          <div class="meta"><div class="val" id="lblOpenMap">Open Map</div></div>
+          <div class="meta"><div class="val" id="lblOpenMap">افتح الخريطة</div></div>
         </a>
       </div>
 
-      <div class="note" id="note">Tap any row to take action (Call / Visit / Email / Open Map)</div>
+      <div class="note" id="note">اضغط على أي صف لاتخاذ إجراء (اتصال / زيارة / بريد / خريطة)</div>
     </div>
   </div>
 
 <script>
   const qs = new URLSearchParams(location.search);
-  const empParam = qs.get('emp');
-  const idParam  = qs.get('id');
-  const key      = empParam || idParam;
+  const langParam = qs.get('lang');       // ?lang=en to switch to English (LTR)
+  const key      = qs.get('emp') || qs.get('id');
 
-  // language preference: dir=rtl or ?lang=ar triggers Arabic labels and Arabic fields
-  const prefersArabic = (document.documentElement.dir === 'rtl') || (qs.get('lang') === 'ar');
+  // Switch direction & labels by lang
+  function localizeLabels(lang){
+    if(lang === 'en'){
+      document.documentElement.lang = 'en';
+      document.documentElement.dir  = 'ltr';
+      // English labels
+      setText('lblPhone','PHONE');
+      setText('lblSite','WEBSITE');
+      setText('lblEmail','EMAIL');
+      setText('lblOpenMap','Open Map');
+      setText('note','Tap any row to take action (Call / Visit / Email / Open Map)');
+    }else{
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir  = 'rtl';
+      // Arabic labels
+      setText('lblPhone','الهاتف');
+      setText('lblSite','الموقع');
+      setText('lblEmail','البريد الإلكتروني');
+      setText('lblOpenMap','افتح الخريطة');
+      setText('note','اضغط على أي صف لاتخاذ إجراء (اتصال / زيارة / بريد / خريطة)');
+    }
+  }
 
   const $ = (id)=>document.getElementById(id);
   const setText = (id,val)=>{ const el=$(id); if(el) el.textContent=val||'—'; };
@@ -137,11 +154,11 @@
         const r = await fetch(url, {cache:'no-store'});
         if(r.ok){
           const data = await r.json();
-          return {data, used:url};
+          return data;
         }
-      }catch(e){ }
+      }catch(e){}
     }
-    throw new Error('No JSON found');
+    return null;
   }
 
   function resolvePaths(key){
@@ -153,37 +170,17 @@
     return p;
   }
 
-  function localizeLabels(){
-    if(prefersArabic){
-      setText('lblPhone','الهاتف');
-      setText('lblSite','الموقع');
-      setText('lblEmail','البريد الإلكتروني');
-      setText('lblOpenMap','افتح الخريطة');
-      setText('note','اضغط على أي صف لاتخاذ إجراء (اتصال / زيارة / بريد / خريطة)');
-      document.documentElement.lang = 'ar';
-      document.documentElement.dir  = 'rtl';
-    }else{
-      setText('lblPhone','PHONE');
-      setText('lblSite','WEBSITE');
-      setText('lblEmail','EMAIL');
-      setText('lblOpenMap','Open Map');
-      setText('note','Tap any row to take action (Call / Visit / Email / Open Map)');
-      document.documentElement.lang = 'en';
-      // dir stays as-is (can be ltr or what page had)
-    }
-  }
-
-  function bind(emp){
-    // choose Arabic or English fields based on preference
-    const name  = prefersArabic ? (emp.nameAr  || emp.nameEn || emp.name) : (emp.nameEn || emp.nameAr || emp.name);
-    const title = prefersArabic ? (emp.titleAr || emp.title)  : (emp.title  || emp.titleAr);
+  function bind(emp, lang){
+    // Values from Arabic-only JSON; if lang=en but no English fields, we still show Arabic values.
+    const name  = emp.nameAr || emp.name || 'اسمك هنا';
+    const title = emp.titleAr || emp.title || 'مسمّاك الوظيفي';
 
     const phone = emp.phone1 || emp.phone || emp.mobile || '+971 XX XXX XXXX';
     const site  = emp.site || emp.website || '#';
     const email = emp.email || 'info@example.com';
 
-    setText('name', name || 'YOUR NAME');
-    setText('designation', title || 'YOUR DESIGNATION');
+    setText('name', name);
+    setText('designation', title);
     setText('phoneText', phone);
     setText('emailText', email);
 
@@ -191,26 +188,26 @@
     $('btnEmail').href = email && email !== '—' ? `mailto:${email}` : '#';
     setSiteLink($('btnSite'), site);
 
-    localizeLabels();
+    localizeLabels(lang);
   }
 
   (async function init(){
+    const lang = (langParam === 'en') ? 'en' : 'ar';
+    localizeLabels(lang);
+
     const demo = {
-      nameEn:"YOUR NAME",
-      title:"YOUR DESIGNATION",
+      nameAr:"اسمك هنا",
+      titleAr:"مسمّاك الوظيفي",
       phone1:"+971 50 000 0000",
-      email:"info@website.com",
+      email:"info@example.com",
       site:"https://www.website.com"
     };
 
-    try{
-      if(!key){ bind(demo); return; }
-      const candidates = resolvePaths(key);
-      const {data} = await fetchFirst(candidates);
-      bind(data);
-    }catch{
-      bind(demo);
-    }
+    if(!key){ bind(demo, lang); return; }
+
+    const paths = resolvePaths(key);
+    const data = await fetchFirst(paths) || demo;
+    bind(data, lang);
   })();
 </script>
 </body>
