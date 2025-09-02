@@ -3,12 +3,10 @@
   "title": "SW Engineer",
   "company": "SA",
   "dept": "SW Engineering",
-  "addressEn": "89GH+JHW - Al Majaz 3 - Al Majaz - Sharjah",
-  "addressAr": "89GH+JHW - المجاز 3 - المجاز - الشارقة",
+  "addressEn": "Al Buhaira - Crescent Tower - Corniche St - Al Majaz 3 - Sharjah",
+  "addressAr": "البحيرة - برج كريسينت - شارع الكورنيش - المجاز 3 - الشارقة",
   "phone1": "+971500000000",
   "email": "Ahmed@example.com",
   "site": "https://example.com",
-  "logoUrl": "assets/logo.png",
-  "mapUrl": "https://www.google.com/maps/search/?api=1&query=89GH+JHW,+Al+Majaz+3,+Al+Majaz,+Sharjah",
-  "whatsapp": "+971500000000"
+  "logoUrl": "assets/logo.png"
 }
