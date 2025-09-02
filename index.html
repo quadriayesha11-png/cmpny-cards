@@ -9,13 +9,13 @@
   body{
     margin:0;
     font-family: system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Dubai","Cairo",sans-serif;
-    background:url("https://cdnp.flypgs.com/files/Sehirler-long-tail/Sharjah/sharjah-gezi-rehberi.jpg") 
+    background:url("https://cdnp.flypgs.com/files/Sehirler-long-tail/Sharjah/sharjah-gezi-rehberi.jpg")
                no-repeat center center fixed;
     background-size:cover;
   }
   .wrap{max-width:440px;margin:0 auto;padding:18px}
   .card{
-    background:#ffffff;              /* solid white card */
+    background:#ffffff;
     border-radius:18px;
     padding:22px 18px 26px;
     border:1px solid #ddd;
@@ -35,28 +35,24 @@
 
   .list{display:grid; gap:9px}
 
-  /* -------- Buttons: light blue theme -------- */
+  /* Buttons: light blue theme */
   .btn{
     display:flex; align-items:center; gap:12px;
     padding:10px 14px;
     border-radius:12px;
-    background:#e6f3ff;                  /* light blue background */
-    border:1px solid #b3daff;            /* light blue border */
+    background:#e6f3ff;
+    border:1px solid #b3daff;
     text-decoration:none;
-    color:#004080;                       /* dark blue text */
+    color:#004080;
     box-shadow:0 2px 6px rgba(0,0,0,.05);
     transition:background .15s, transform .12s;
   }
-  .btn:hover{
-    background:#d4ebff;                  /* slightly darker on hover */
-    transform:translateY(-1px);
-  }
+  .btn:hover{ background:#d4ebff; transform:translateY(-1px); }
   .ico{
     width:36px; height:36px; border-radius:8px; display:grid; place-items:center; flex:0 0 36px;
-    background:#fff;
-    border:1px solid #b3daff;
+    background:#fff; border:1px solid #b3daff;
   }
-  .ico svg{width:18px;height:18px;color:#0073e6}  /* icon color */
+  .ico svg{width:18px;height:18px;color:#0073e6}
   .vline{width:1px; height:24px; background:#b3daff}
   .meta .lbl{font-size:12px; color:#0073e6; font-weight:700}
   .meta .val{font-weight:800; font-size:15px; color:#004080}
@@ -112,9 +108,12 @@
 
 <script>
   const qs = new URLSearchParams(location.search);
-  const empParam = qs.get('emp');          // new: ?emp=Emp1  OR ?emp=staff/Emp1.json
-  const idParam  = qs.get('id');           // legacy support: ?id=Emp1
-  const key      = empParam || idParam;    // which key to use
+  const empParam = qs.get('emp');          // ?emp=Emp1 OR ?emp=folder/Emp1.json
+  const idParam  = qs.get('id');           // legacy ?id=Emp1
+  const key      = empParam || idParam;
+
+  // Always open this pinned place (no map fields needed in JSON)
+  const MAP_FALLBACK = "https://maps.app.goo.gl/ZifwVaEtYV7Ynay79";
 
   const $ = (id)=>document.getElementById(id);
   const setText = (id,val)=>{ const el=$(id); if(el) el.textContent=val||'—'; };
@@ -124,15 +123,11 @@
     try{ const u = new URL(href); el.href = href; $('siteText').textContent = u.host; }
     catch{ el.href = href; $('siteText').textContent = href; }
   }
-  function mapHrefFrom(emp){
-    if(typeof emp.lat==='number' && typeof emp.lng==='number')
-      return `https://www.google.com/maps/search/?api=1&query=${emp.lat},${emp.lng}`;
-    if(emp.mapUrl) return emp.mapUrl;
-    const q=encodeURIComponent(emp.addressEn||emp.addressAr||'');
-    return `https://www.google.com/maps/search/?api=1&query=89GH+JHW,+Al+Majaz+3,+Al+Majaz,+Sharjah`;
-  }
 
-  // Try multiple possible JSON paths in order (first that loads wins)
+  // Always return the pinned map link (JSON has no map fields)
+  function mapHrefFrom(){ return MAP_FALLBACK; }
+
+  // Try multiple possible JSON paths (first that loads wins)
   async function fetchFirst(urls){
     for(const url of urls){
       try{
@@ -141,51 +136,49 @@
           const data = await r.json();
           return {data, used:url};
         }
-      }catch(e){ /* ignore and try next */ }
+      }catch(e){ /* try next */ }
     }
     throw new Error('No JSON found at: ' + urls.join(', '));
   }
 
   function resolvePaths(key){
     if(!key) return null;
-    const paths = [];
-    // if user passed a full .json path, use as-is first
-    if(/\.json$/i.test(key)) paths.push(key);
-    // then try relative (root) e.g., Emp1.json
-    paths.push(`${key}.json`);
-    // also try employees subfolder e.g., employees/Emp1.json
-    paths.push(`employees/${key}.json`);
-    return paths;
+    const p = [];
+    if(/\.json$/i.test(key)) p.push(key);  // exact path
+    p.push(`${key}.json`);                 // same folder
+    p.push(`employees/${key}.json`);       // employees subfolder
+    return p;
   }
 
   function bind(emp){
-    // Accept different possible field names smoothly
     $('logoImg').src = emp.logoUrl || emp.logo || 'https://dummyimage.com/400x400/ffffff/cccccc&text=Logo';
     $('logoImg').onerror = () => { $('logoImg').src='https://dummyimage.com/400x400/ffffff/cccccc&text=Logo'; };
 
-    const name = emp.nameEn || emp.nameAr || emp.name || emp.fullName || 'YOUR NAME';
-    const title = emp.title || emp.designation || emp.position || '';
-    const phone = emp.phone1 || emp.phone || emp.mobile || '';
-    const site  = emp.site || emp.website || '';
-    const email = emp.email || '';
-    const addr  = emp.addressEn || emp.addressAr || emp.address || '';
+    const name  = emp.nameEn || emp.nameAr || emp.name || emp.fullName || 'YOUR NAME';
+    const title = emp.title || emp.designation || emp.position || 'YOUR DESIGNATION';
+    const phone = emp.phone1 || emp.phone || emp.mobile || '+971 XX XXX XXXX';
+    const site  = emp.site || emp.website || '#';
+    const email = emp.email || 'info@example.com';
+    const addr  = emp.addressEn || emp.addressAr || 'Your Address Here';
 
     setText('name', name);
-    setText('designation', title || 'YOUR DESIGNATION');
-    setText('phoneText', phone || '+971 XX XXX XXXX');
-    setText('emailText', email || 'info@example.com');
-    setText('addrText', addr || 'Your Address Here');
+    setText('designation', title);
+    setText('phoneText', phone);
+    setText('emailText', email);
+    setText('addrText', addr);
 
-    $('btnPhone').href = phone ? `tel:${phone}` : '#';
-    $('btnEmail').href = email ? `mailto:${email}` : '#';
-    setSiteLink($('btnSite'), site || '#');
-    $('btnMap').href = mapHrefFrom(emp);
+    $('btnPhone').href = phone && phone !== '—' ? `tel:${phone}` : '#';
+    $('btnEmail').href = email && email !== '—' ? `mailto:${email}` : '#';
+    setSiteLink($('btnSite'), site);
+    $('btnMap').href = mapHrefFrom();  // always pinned place
   }
 
   (async function init(){
     const demo = {
-      nameEn:"YOUR NAME", title:"YOUR DESIGNATION",
-      phone:"+971 50 000 0000", email:"info@website.com",
+      nameEn:"YOUR NAME",
+      title:"YOUR DESIGNATION",
+      phone:"+971 50 000 0000",
+      email:"info@website.com",
       site:"https://www.website.com",
       addressEn:"Your Address Here, City, State, Pincode",
       logoUrl:"https://dummyimage.com/600x600/ffffff/cccccc&text=LOGO"
@@ -195,11 +188,9 @@
 
     const candidates = resolvePaths(key);
     try{
-      const {data, used} = await fetchFirst(candidates);
+      const {data} = await fetchFirst(candidates);
       bind(data);
-      // console.log('Loaded employee JSON:', used);
-    }catch(err){
-      // console.warn(err);
+    }catch{
       bind(demo);
     }
   })();
