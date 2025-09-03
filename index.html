@@ -1,194 +1,20 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Digital Business Card</title>
-<meta name="robots" content="noindex,nofollow,noarchive" />
-<style>
-  :root{
-    --ink:#002b5c;
-    --muted:#6b7a90;
-    --blue-1:#e6f3ff;
-    --blue-2:#b3daff;
-    --blue-3:#0073e6;
-  }
- 
-  body{
-    margin:0;
-    font-family: system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Dubai","Cairo",sans-serif;
-    background:url("https://cdnp.flypgs.com/files/Sehirler-long-tail/Sharjah/sharjah-gezi-rehberi.jpg") no-repeat center center fixed;
-    background-size:cover;
-  }
- 
-  .wrap{max-width:460px;margin:0 auto;padding:18px}
-  .card{
-    background:#fff;
-    border-radius:18px;
-    padding:22px 18px 26px;
-    border:1px solid #e5e5e5;
-    box-shadow:0 12px 28px rgba(0,0,0,.18);
-    min-height:200px;
-    position:relative;
-  }
- 
-  /* Top-right actions (small, unobtrusive) */
-  .actions{position:absolute; top:8px; inset-inline-end:8px; display:flex; gap:8px}
-  .act{
-    width:38px; height:34px; border-radius:10px; border:1px solid #dcdcdc;
-    background:#f6f6f6; display:grid; place-items:center; cursor:pointer;
-    box-shadow:0 2px 6px rgba(0,0,0,.08); font-size:16px;
-  }
-  .act:hover{background:#ededed}
- 
-  /* Logo – square */
-  .logo-wrap{width:170px;height:170px;margin:0 auto 10px;display:grid;place-items:center}
-  .logo{width:170px;height:170px;border-radius:0;overflow:hidden}
-  .logo img{width:100%;height:100%;object-fit:contain;display:block;background:transparent}
- 
-  .name{ text-align:center; font-size:30px; font-weight:900; margin:10px 8px 6px; color:var(--ink); }
-  .designation{ text-align:center; font-weight:700; color:#00509e; margin-bottom:12px }
- 
-  .dash{margin:8px auto 14px; width:100%; height:1px; background:#eee}
- 
-  /* Buttons */
-  .list{display:grid; gap:12px}
-  .btn{
-    display:flex; align-items:center; gap:12px;
-    padding:12px 14px;
-    border-radius:12px;
-    background:var(--blue-1);
-    border:1px solid var(--blue-2);
-    text-decoration:none;
-    color:var(--ink);
-    transition:background .15s, transform .12s;
-  }
-  .btn:hover{ background:#d4ebff; transform:translateY(-1px); }
- 
-  .ico{
-    width:36px;height:36px;display:grid;place-items:center;flex-shrink:0;
-    background:#fff;border:1px solid var(--blue-2);border-radius:10px;
-    font-size:18px;line-height:1;
-  }
- 
-  .meta{flex:1;display:flex;flex-direction:column}
-  .meta .lbl{font-size:13px;font-weight:700;color:#0059b3}
-  .meta .val{font-size:16px;font-weight:800;color:var(--ink)}
- 
-  /* Direction-aware flow */
-  [dir="rtl"] .btn{flex-direction:row-reverse}
-  [dir="rtl"] .meta{text-align:right}
-  [dir="ltr"] .meta{text-align:left}
- 
-  .note{margin-top:14px;text-align:center;font-size:12px;color:#777}
- 
-  /* Error message */
-  .error{ text-align:center; padding:30px 12px; color:#b00020; font-weight:800; }
- 
-  /* QR Modal (lightweight) */
-  .modal{position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; padding:16px}
-  .modal .box{background:#fff; border-radius:14px; padding:16px; width:min(92vw,420px); text-align:center}
-  .qr-wrap{display:grid; place-items:center; padding:10px}
-  .qr-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px}
-  .btn2{padding:10px 14px; border-radius:10px; border:1px solid #dcdcdc; background:#f6f6f6; cursor:pointer}
-  .btn2:hover{background:#ededed}
-</style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="card" id="card">
-      <!-- Small action buttons -->
-      <div class="actions" id="actions" hidden>
-        <button class="act" id="saveVcfBtn" title="Save vCard">👤➕</button>
-        <button class="act" id="shareQrBtn" title="Share as QR">🔗</button>
-      </div>
- 
-      <!-- Fixed logo file -->
-      <div class="logo-wrap">
-        <div class="logo"><img src="Logo.png" alt="Logo"></div>
-      </div>
- 
-      <!-- Name / Title -->
-      <div class="name" id="name">اسمك هنا</div>
-      <div class="designation" id="designation">مسمّاك الوظيفي</div>
-      <div class="dash"></div>
- 
-      <!-- Contact Buttons -->
-      <div class="list">
-        <a class="btn" id="btnPhone" href="#">
-          <div class="ico">📞</div>
-          <div class="meta">
-            <div class="lbl" id="lblPhone">الهاتف</div>
-            <div class="val" id="phoneText">+971 XX XXX XXXX</div>
-          </div>
-        </a>
- 
-        <a class="btn" id="btnSite" href="#" target="_blank" rel="noopener">
-          <div class="ico">🌐</div>
-          <div class="meta">
-            <div class="lbl" id="lblSite">الموقع</div>
-            <div class="val" id="siteText">example.com</div>
-          </div>
-        </a>
- 
-        <a class="btn" id="btnEmail" href="#">
-          <div class="ico">✉️</div>
-          <div class="meta">
-            <div class="lbl" id="lblEmail">البريد الإلكتروني</div>
-            <div class="val" id="emailText">info@example.com</div>
-          </div>
-        </a>
- 
-        <a class="btn" id="btnMap" href="https://maps.app.goo.gl/ZifwVaEtYV7Ynay79" target="_blank" rel="noopener">
-          <div class="ico">📍</div>
-          <div class="meta"><div class="val" id="lblOpenMap">افتح الخريطة</div></div>
-        </a>
-      </div>
- 
-      <div class="note" id="note">اضغط على أي صف لاتخاذ إجراء (اتصال / زيارة / بريد / خريطة)</div>
-    </div>
-  </div>
- 
-  <!-- QR Modal -->
-  <div class="modal" id="qrModal" aria-hidden="true">
-    <div class="box">
-      <div style="font-weight:800; margin-bottom:6px" id="qrTitle">Share as QR</div>
-      <div class="qr-wrap"><div id="qrcode"></div></div>
-      <div class="qr-actions">
-        <button class="btn2" id="copyLinkBtn">Copy Link</button>
-        <button class="btn2" id="nativeShareBtn">Share</button>
-        <button class="btn2" id="downloadQrBtn">Download PNG</button>
-        <button class="btn2" id="closeQrBtn">Close</button>
-      </div>
-    </div>
-  </div>
- 
-  <!-- QR code lib -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
- 
 <script>
-  // --- Params ---
   const qs   = new URLSearchParams(location.search);
-  const lang = qs.get('lang') === 'en' ? 'en' : 'ar';   // default Arabic
-  const id   = qs.get('id') || "";                      // ONLY ?id= (GUID ya Emp1)
-  let empData = null;
- 
-  // --- Helpers ---
+  const lang = qs.get('lang') === 'en' ? 'en' : 'ar';
+  const id   = qs.get('id') || "";
+
   const $ = (id)=>document.getElementById(id);
   const setText = (id,val)=>{ const el=$(id); if(el) el.textContent = val || '—'; };
- 
+
   function showError(msg){
-    const card = $('card');
-    card.innerHTML = `<div class="error">${msg}</div>`;
+    $('card').innerHTML = `<div class="error">${msg}</div>`;
   }
- 
-  // Always load from employees/ folder
+
   function buildEmployeesPath(id){
     if(!id) return null;
-    const hasJson = /\.json$/i.test(id);
-    return `employees/${hasJson ? id : (id + '.json')}`;
+    return `employees/${id.endsWith('.json') ? id : id + '.json'}`;
   }
- 
+
   function localizeLabels(){
     if(lang === 'en'){
       document.documentElement.lang = 'en';
@@ -198,13 +24,6 @@
       setText('lblEmail','Email');
       setText('lblOpenMap','Open Map');
       setText('note','Tap any row to take action (Call / Visit / Email / Map)');
-      $('saveVcfBtn').title = 'Save vCard';
-      $('shareQrBtn').title = 'Share as QR';
-      $('qrTitle').textContent = 'Share as QR';
-      $('copyLinkBtn').textContent = 'Copy Link';
-      $('nativeShareBtn').textContent = 'Share';
-      $('downloadQrBtn').textContent = 'Download PNG';
-      $('closeQrBtn').textContent = 'Close';
     }else{
       document.documentElement.lang = 'ar';
       document.documentElement.dir  = 'rtl';
@@ -213,115 +32,81 @@
       setText('lblEmail','البريد الإلكتروني');
       setText('lblOpenMap','افتح الخريطة');
       setText('note','اضغط على أي صف لاتخاذ إجراء (اتصال / زيارة / بريد / خريطة)');
-      $('saveVcfBtn').title = 'حفظ بطاقة';
-      $('shareQrBtn').title = 'مشاركة QR';
-      $('qrTitle').textContent = 'شارك كرُمز QR';
-      $('copyLinkBtn').textContent = 'نسخ الرابط';
-      $('nativeShareBtn').textContent = 'مشاركة';
-      $('downloadQrBtn').textContent = 'تنزيل PNG';
-      $('closeQrBtn').textContent = 'إغلاق';
     }
+    $('btnVCard').title = 'Download vCard';
   }
- 
-  function setSiteLink(el, href){
-    if(!href){ el.removeAttribute('href'); el.href='#'; $('siteText').textContent='—'; return; }
-    try{ const u = new URL(href); el.href = href; $('siteText').textContent = u.host; }
-    catch{ el.href = href; $('siteText').textContent = href; }
+
+  function vEsc(s){ return String(s||'').replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;'); }
+  function bestName(data){ return data.name || data.nameEn || data.nameAr || 'Contact'; }
+  function safeFile(s){ return String(s||'Contact').replace(/[<>:"/\\|?*\u0000-\u001F]/g,'').trim() || 'Contact'; }
+
+  function buildVCard(data){
+    const fn   = data.nameEn || data.name || data.nameAr || '';
+    const org  = data.company || '';
+    const titl = data.titleEn || data.title || data.titleAr || '';
+    const tel  = data.phone1 || data.phone || data.mobile || '';
+    const mail = data.email || '';
+    const url  = data.site || data.website || '';
+
+    let last='', first='', middle='';
+    if(fn){
+      const parts = fn.trim().split(/\s+/);
+      if(parts.length===1){ first=parts[0]; }
+      else if(parts.length===2){ first=parts[0]; last=parts[1]; }
+      else { first=parts[0]; last=parts[parts.length-1]; middle=parts.slice(1,-1).join(' '); }
+    }
+
+    return [
+      'BEGIN:VCARD',
+      'VERSION:3.0',
+      `FN:${vEsc(fn || bestName(data))}`,
+      `N:${vEsc(last)};${vEsc(first)};${vEsc(middle)};;`,
+      titl ? `TITLE:${vEsc(titl)}` : '',
+      org  ? `ORG:${vEsc(org)}` : '',
+      tel  ? `TEL;TYPE=CELL,VOICE:${vEsc(tel)}` : '',
+      mail ? `EMAIL;TYPE=INTERNET:${vEsc(mail)}` : '',
+      url  ? `URL:${vEsc(url)}` : '',
+      'END:VCARD'
+    ].filter(Boolean).join('\r\n');
   }
- 
+
+  function downloadVCard(data){
+    const vcf = buildVCard(data);
+    const blob = new Blob([vcf], {type:'text/vcard;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = safeFile(bestName(data)) + '.vcf';
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  }
+
   async function fetchJSON(path){
     const r = await fetch(path, { cache:'no-store' });
     if(!r.ok) throw new Error('Not found');
     return r.json();
   }
- 
-  function bind(emp){
-    empData = emp;
- 
-    const name  = emp.nameAr || emp.name || 'اسمك هنا';
-    const title = emp.titleAr || emp.title || 'مسمّاك الوظيفي';
-    const phone = emp.phone1 || emp.phone || emp.mobile || '+971 XX XXX XXXX';
-    const site  = emp.site || emp.website || '#';
-    const email = emp.email || 'info@example.com';
- 
-    setText('name', name);
-    setText('designation', title);
-    setText('phoneText', phone);
-    setText('emailText', email);
- 
-    $('btnPhone').href = phone ? `tel:${phone}` : '#';
-    $('btnEmail').href = email ? `mailto:${email}` : '#';
-    setSiteLink($('btnSite'), site);
- 
-    $('actions').hidden = false; // reveal top-right actions
-  }
- 
-  // --- vCard helpers ---
-  function buildVCard(emp){
-    const name = (emp.nameEn || emp.nameAr || emp.name || '').replace(/\r?\n/g,' ').trim();
-    const title = (emp.titleAr || emp.title || '').replace(/\r?\n/g,' ').trim();
-    const phone = emp.phone1 || emp.phone || '';
-    const email = emp.email || '';
-    const site  = emp.site || emp.website || '';
-    const lines = [
-      'BEGIN:VCARD','VERSION=3.0',
-      `FN:${name}`,
-      title ? `TITLE:${title}` : '',
-      phone ? `TEL;TYPE=CELL:${phone}` : '',
-      email ? `EMAIL;TYPE=INTERNET:${email}` : '',
-      site  ? `URL:${site}` : '',
-      'END:VCARD'
-    ].filter(Boolean);
-    return lines.join('\n');
-  }
-  function downloadVcf(){
-    if(!empData) return;
-    const vcf = buildVCard(empData);
-    const blob = new Blob([vcf], {type:'text/vcard;charset=utf-8'});
-    const a = document.createElement('a');
-    const name = (empData.nameEn || empData.nameAr || 'contact').replace(/[^\w\-]+/g,'_');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${name}.vcf`;
-    document.body.appendChild(a); a.click(); a.remove();
-    URL.revokeObjectURL(a.href);
-  }
- 
-  // --- QR modal helpers ---
-  const modal = $('qrModal');
-  function openQr(){
-    modal.style.display = 'flex';
-    const target = $('qrcode');
-    target.innerHTML = '';
-    new QRCode(target, { text: location.href, width: 220, height: 220, correctLevel: QRCode.CorrectLevel.M });
-  }
-  function closeQr(){ modal.style.display = 'none'; $('qrcode').innerHTML=''; }
-  async function copyLink(){ try{ await navigator.clipboard.writeText(location.href); }catch(e){} }
-  async function nativeShare(){
-    if(navigator.share){
-      try{ await navigator.share({ title: document.title, url: location.href }); }catch(e){}
-    }else{
-      copyLink(); alert(lang==='en' ? 'Link copied!' : 'تم نسخ الرابط!');
-    }
-  }
- function downloadQrPng(){
-    const img = document.querySelector('#qrcode img') || document.querySelector('#qrcode canvas');
-    if(!img) return;
-    const dataURL = img.tagName.toLowerCase()==='img' ? img.src : img.toDataURL('image/png');
-    const a = document.createElement('a');
-    a.href = dataURL; a.download = 'qr.png';
-    document.body.appendChild(a); a.click(); a.remove();
-  }
- 
 
-    // wire actions
-    $('saveVcfBtn').onclick  = downloadVcf;
-    $('shareQrBtn').onclick  = openQr;
-    $('closeQrBtn').onclick  = closeQr;
-    $('copyLinkBtn').onclick = copyLink;
-    $('nativeShareBtn').onclick = nativeShare;
-    $('downloadQrBtn').onclick = downloadQrPng;
-    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeQr(); });
+  function bind(data){
+    setText('name', data.nameAr || data.name || 'اسمك هنا');
+    setText('designation', data.titleAr || data.title || 'مسمّاك الوظيفي');
+    setText('phoneText', data.phone1 || data.phone || data.mobile || '+971 XX XXX XXXX');
+    setText('emailText', data.email || 'info@example.com');
+
+    $('btnPhone').href = data.phone1 ? `tel:${data.phone1}` : '#';
+    $('btnEmail').href = data.email ? `mailto:${data.email}` : '#';
+    const site = data.site || data.website || '#';
+    try{ const u = new URL(site); $('btnSite').href=site; $('siteText').textContent=u.host; }
+    catch{ $('btnSite').href=site; $('siteText').textContent=site; }
+
+    $('btnVCard').onclick = ()=> downloadVCard(data);
+  }
+
+  (async function init(){
+    localizeLabels();
+    if(!id){ showError(lang==='en' ? 'Invalid or missing ID':'المعرّف مفقود أو غير صالح'); return; }
+    try{ const data = await fetchJSON(buildEmployeesPath(id)); bind(data); }
+    catch{ showError(lang==='en' ? 'Invalid or missing ID':'المعرّف مفقود أو غير صالح'); }
   })();
 </script>
-</body>
-</html>
