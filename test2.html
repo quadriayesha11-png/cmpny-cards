@@ -312,23 +312,7 @@
     document.body.appendChild(a); a.click(); a.remove();
   }
  
-  (async function init(){
-    localizeLabels();
- 
-    if(!id){
-      showError(lang === 'en' ? 'Invalid or missing ID' : 'المعرّف مفقود أو غير صالح');
-      return;
-    }
- 
-    const path = buildEmployeesPath(id);
-    try{
-      const data = await fetchJSON(path);
-      bind(data);
-    }catch{
-      showError(lang === 'en' ? 'Invalid or missing ID' : 'المعرّف مفقود أو غير صالح');
-      return;
-    }
- 
+
     // wire actions
     $('saveVcfBtn').onclick  = downloadVcf;
     $('shareQrBtn').onclick  = openQr;
